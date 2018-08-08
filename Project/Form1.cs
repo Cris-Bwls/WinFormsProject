@@ -21,5 +21,15 @@ namespace Project
         {
 
         }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void goodToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
     }
 }
