@@ -30,5 +30,10 @@ namespace Project
         {
 			groupList.Add(new Group(groupList, splitContainer1.Panel1));
         }
-    }
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

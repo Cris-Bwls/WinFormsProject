@@ -33,8 +33,10 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.AddImage = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -86,6 +88,7 @@
 			this.splitContainer1.Panel2.AllowDrop = true;
 			this.splitContainer1.Panel2.AutoScroll = true;
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Size = new System.Drawing.Size(317, 601);
 			this.splitContainer1.SplitterDistance = 393;
 			this.splitContainer1.TabIndex = 3;
@@ -99,6 +102,20 @@
 			this.AddImage.TabIndex = 4;
 			this.AddImage.Text = "Add Image";
 			this.AddImage.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.Location = new System.Drawing.Point(0, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(209, 25);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Ungrouped Images";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// Form1
 			// 
@@ -115,6 +132,8 @@
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -128,6 +147,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Button AddImage;
+		private System.Windows.Forms.Label label1;
 	}
 }
 
