@@ -12,6 +12,10 @@ namespace Project
 {
     public partial class Form1 : Form
     {
+        private List<Group> groupList = new List<Group>();
+
+        private List<List<PictureBox>> array = new List<List<PictureBox>>();
+
         public Form1()
         {
             InitializeComponent();
@@ -22,14 +26,9 @@ namespace Project
 
         }
 
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void goodToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            saveFileDialog1.ShowDialog();
+			groupList.Add(new Group(groupList, splitContainer1.Panel1));
         }
     }
 }
