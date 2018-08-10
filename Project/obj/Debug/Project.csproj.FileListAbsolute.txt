@@ -8,3 +8,4 @@ C:\Users\s181210\Documents\Projects\006_IntroToC#\Project\Project\obj\Debug\Proj
 C:\Users\s181210\Documents\Projects\006_IntroToC#\Project\Project\obj\Debug\Project.csproj.CoreCompileInputs.cache
 C:\Users\s181210\Documents\Projects\006_IntroToC#\Project\Project\obj\Debug\Project.exe
 C:\Users\s181210\Documents\Projects\006_IntroToC#\Project\Project\obj\Debug\Project.pdb
+C:\Users\s181210\Documents\Projects\006_IntroToC#\Project\Project\obj\Debug\Project.DataGroupForm.resources

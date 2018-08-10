@@ -10,27 +10,27 @@ namespace Project
 {
     public class Group
     {
-        const int m_nHeaderPanelHeight = 25;
-        const int m_nDataPanelHeight = 100;
+        private const int m_nHeaderPanelHeight = 25;
+		private const int m_nDataPanelHeight = 100;
 
-        string m_Name = "Group";
+		private string m_Name = "Group";
 
-        Panel m_parentPanel = null;
-        List<Group> m_container = null;
+		private Panel m_parentPanel = null;
+		private List<Group> m_container = null;
 
 
-        Panel m_headerPanel = new Panel();
-        Panel m_dataPanel = new Panel();
+		private Panel m_headerPanel = new Panel();
+		private Panel m_dataPanel = new Panel();
 
-        Button m_collapseGroup = new Button();
-        Button m_renameGroup = new Button();
-        Button m_deleteGroup = new Button();
+		private Button m_collapseGroup = new Button();
+		private Button m_renameGroup = new Button();
+		private Button m_deleteGroup = new Button();
 
-        Button m_addData = new Button();
+		private Button m_addData = new Button();
 
-        List<PictureBox> m_dataList = new List<PictureBox>();
+		private List<PictureBox> m_dataList = new List<PictureBox>();
 
-        TextBox m_TextBox = new TextBox();
+		private TextBox m_TextBox = new TextBox();
 
         public Group(List<Group> container, Panel parentPanel)
         {
@@ -85,7 +85,12 @@ namespace Project
             m_TextBox.TabIndex = 3;
         }
 
-        private void CollapseGroup_Click(object sender, EventArgs e)
+		public List<PictureBox> GetDataList()
+		{
+			return m_dataList;
+		}
+
+		private void CollapseGroup_Click(object sender, EventArgs e)
         {
             m_dataPanel.Visible = !m_dataPanel.Visible;
         }

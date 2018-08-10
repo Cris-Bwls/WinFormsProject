@@ -1,0 +1,18 @@
+using System.Reflection;
+//Put in Form1's Constructor, after InitializeComponent()
+typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+			| BindingFlags.Instance | BindingFlags.NonPublic, null,
+			DrawPanel, new object[] { true });
+
+
+
+//Put this inside your class
+protected override CreateParams CreateParams
+{
+	get
+	{
+		CreateParams handleParam = base.CreateParams;
+		handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+		return handleParam;
+	}
+}
