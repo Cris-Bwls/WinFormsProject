@@ -33,6 +33,7 @@
 			this.NewGroupButton = new System.Windows.Forms.Button();
 			this.ImportImageButton = new System.Windows.Forms.Button();
 			this.HideButton = new System.Windows.Forms.Button();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -61,6 +62,8 @@
 			this.splitContainer1.Panel2.AutoScroll = true;
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
+			this.splitContainer1.Panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.SplitPanel2_DragDrop);
+			this.splitContainer1.Panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.SplitPanel2_DragEnter);
 			this.splitContainer1.Size = new System.Drawing.Size(314, 531);
 			this.splitContainer1.SplitterDistance = 347;
 			this.splitContainer1.TabIndex = 4;
@@ -103,6 +106,7 @@
 			// HideButton
 			// 
 			this.HideButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.HideButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.HideButton.Location = new System.Drawing.Point(239, 2);
 			this.HideButton.Name = "HideButton";
 			this.HideButton.Size = new System.Drawing.Size(75, 23);
@@ -111,12 +115,16 @@
 			this.HideButton.UseVisualStyleBackColor = true;
 			this.HideButton.Click += new System.EventHandler(this.HideButton_Click);
 			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.FileName = "openFileDialog1";
+			// 
 			// DataGroupForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.HideButton;
-			this.ClientSize = new System.Drawing.Size(314, 562);
+			this.ClientSize = new System.Drawing.Size(314, 584);
 			this.ControlBox = false;
 			this.Controls.Add(this.HideButton);
 			this.Controls.Add(this.ImportImageButton);
@@ -142,5 +150,6 @@
 		private System.Windows.Forms.Button NewGroupButton;
 		private System.Windows.Forms.Button ImportImageButton;
 		private System.Windows.Forms.Button HideButton;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 	}
 }

@@ -61,8 +61,7 @@ namespace Project
 
 		private void imagePalletteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!dataGroupForm.Visible)
-				dataGroupForm.Show(this);
+			dataGroupForm.Visible = !dataGroupForm.Visible;
 		}
 
 		private void ResizeMapButton_Click(object sender, EventArgs e)
