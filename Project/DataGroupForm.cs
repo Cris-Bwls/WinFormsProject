@@ -14,10 +14,10 @@ namespace Project
 {
 	public partial class DataGroupForm : Form
 	{
-		private List<Group> groupList = null;
-		private List<PictureBox> unGroupedList = new List<PictureBox>();
+		public List<Group> groupList = null;
+		public List<PictureBox> unGroupedList = new List<PictureBox>();
 
-		private bool internalDrag = false;
+		public bool internalDrag = false;
 		private bool isString = false;
 
 		private List<string> dragPathList = new List<string>();
@@ -28,6 +28,7 @@ namespace Project
 		public DataGroupForm()
 		{
 			InitializeComponent();
+			
 
 			// Double Buffering
 			typeof(SplitContainer).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
@@ -53,16 +54,22 @@ namespace Project
 
 		private void ImportImages()
 		{
+			// Load Images into ungrouped picture boxes
 			foreach(Image image in newImageList)
 			{
 				var temp = new PictureBox();
 				temp.Image = image;
-				temp.Parent = splitContainer1.Panel2;
-				temp.Dock = DockStyle.Top;
+				temp.Parent = UngroupedPanel;
+				temp.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
+				temp.SizeMode = PictureBoxSizeMode.Zoom;
+				temp.MouseDown += PictureBox_MouseDown;
+				temp.QueryContinueDrag += PictureBox_QueryContinueDrag;
+
 				// Add PictureBox to list
 				unGroupedList.Add(temp);
 			}
-			// Load Images into ungrouped picture boxes
+			newImageList.Clear();
+			ResizeUngrouped();
 		}
 
 		private void ImportImageButton_Click(object sender, EventArgs e)
@@ -99,9 +106,7 @@ namespace Project
 		{
 			isString = GetIsValidFileType(e);
 			if (isString)
-			{
-				getImageThread = new Thread(new ThreadStart(LoadImage));
-				getImageThread.Start();
+			{				
 				e.Effect = DragDropEffects.Copy;
 			}
 			else
@@ -112,6 +117,9 @@ namespace Project
 		{
 			if (isString)
 			{
+				getImageThread = new Thread(new ThreadStart(LoadImage));
+				getImageThread.Start();
+
 				while (getImageThread.IsAlive)
 				{
 					Application.DoEvents();
@@ -123,6 +131,7 @@ namespace Project
 
 		private bool GetIsValidFileType(DragEventArgs e)
 		{
+
 			bool result = false;
 			dragPathList.Clear();
 
@@ -153,5 +162,52 @@ namespace Project
 				newImageList.Add(new Bitmap(path));
 			}
 		}
+
+		public void ResizeUngrouped()
+		{
+			int nImageSizeWPadding = (Group.m_nImageSize + Group.m_nImagePadding);
+			int nColumnNum = UngroupedPanel.Width / nImageSizeWPadding;
+
+			for (int i = 0; i < unGroupedList.Count; ++i)
+			{
+				int row = i / nColumnNum;
+				int col = i % nColumnNum;
+
+				int y = row * nImageSizeWPadding;
+				int x = col * nImageSizeWPadding + 10;
+
+				unGroupedList[i].Location = new Point(x, y);
+			}
+		}
+
+		private void UngroupedPanel_Resize(object sender, EventArgs e)
+		{
+			ResizeUngrouped();
+		}
+
+		private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+		{
+			((PictureBox)sender).DoDragDrop((sender), DragDropEffects.Move);
+		}
+
+		private void PictureBox_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+		{
+			Form f = ((PictureBox)sender).FindForm();
+			
+			// Check Left and Right In bounds
+			if (((MousePosition.X ) < f.DesktopBounds.Left) || ((MousePosition.X) > f.DesktopBounds.Right))
+				// Check Up and Down In bounds
+				if (((MousePosition.Y) < f.DesktopBounds.Top) ||	((MousePosition.Y) > f.DesktopBounds.Bottom))
+					// Cancel Drag
+					e.Action = DragAction.Cancel;
+		}
+
+		private void DataGroupForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			// Save current as LastUsed.ipal
+
+			Console.WriteLine("HELP!!! Cameron murdered me!!!");
+		}
+
 	}
 }

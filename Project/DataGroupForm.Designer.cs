@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.UngroupedPanel = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.NewGroupButton = new System.Windows.Forms.Button();
 			this.ImportImageButton = new System.Windows.Forms.Button();
@@ -59,14 +60,24 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.AllowDrop = true;
-			this.splitContainer1.Panel2.AutoScroll = true;
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.splitContainer1.Panel2.Controls.Add(this.UngroupedPanel);
 			this.splitContainer1.Panel2.Controls.Add(this.label1);
 			this.splitContainer1.Panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.SplitPanel2_DragDrop);
 			this.splitContainer1.Panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.SplitPanel2_DragEnter);
 			this.splitContainer1.Size = new System.Drawing.Size(314, 531);
 			this.splitContainer1.SplitterDistance = 347;
 			this.splitContainer1.TabIndex = 4;
+			// 
+			// UngroupedPanel
+			// 
+			this.UngroupedPanel.AutoScroll = true;
+			this.UngroupedPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.UngroupedPanel.Location = new System.Drawing.Point(0, 25);
+			this.UngroupedPanel.Name = "UngroupedPanel";
+			this.UngroupedPanel.Size = new System.Drawing.Size(314, 155);
+			this.UngroupedPanel.TabIndex = 1;
+			this.UngroupedPanel.Resize += new System.EventHandler(this.UngroupedPanel_Resize);
 			// 
 			// label1
 			// 
@@ -134,6 +145,7 @@
 			this.Name = "DataGroupForm";
 			this.Text = "DataGroupForm";
 			this.TopMost = true;
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DataGroupForm_FormClosed);
 			this.Load += new System.EventHandler(this.DataGroupForm_Load);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
@@ -151,5 +163,6 @@
 		private System.Windows.Forms.Button ImportImageButton;
 		private System.Windows.Forms.Button HideButton;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private System.Windows.Forms.Panel UngroupedPanel;
 	}
 }

@@ -61,6 +61,9 @@ namespace Project
 
 		private void imagePalletteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (dataGroupForm.IsDisposed)
+				dataGroupForm = new DataGroupForm();
+
 			dataGroupForm.Visible = !dataGroupForm.Visible;
 		}
 

@@ -10,9 +10,12 @@ namespace Project
 {
     public class Group
     {
+		public const int m_nImageSize = 75;
+		public const int m_nImagePadding = 5;
+
         private const int m_nHeaderPanelHeight = 25;
 		private const int m_nDataPanelHeight = 100;
-
+		
 		private string m_Name = "Group";
 
 		private Panel m_parentPanel = null;
@@ -25,8 +28,6 @@ namespace Project
 		private Button m_collapseGroup = new Button();
 		private Button m_renameGroup = new Button();
 		private Button m_deleteGroup = new Button();
-
-		private Button m_addData = new Button();
 
 		private List<PictureBox> m_dataList = new List<PictureBox>();
 
@@ -70,12 +71,12 @@ namespace Project
             // Setup Data Panel
             m_dataPanel.Size = new System.Drawing.Size(parentPanel.Size.Width, m_nDataPanelHeight);
             m_dataPanel.Dock = DockStyle.Top;
-
-            m_dataPanel.Controls.Add(m_addData);
-
-            // Add Data Button
-            m_addData.Dock = DockStyle.Top;
-            m_addData.Click += new System.EventHandler(CollapseGroup_Click);
+			m_dataPanel.BackColor = Color.DimGray;
+			m_dataPanel.AllowDrop = true;
+			m_dataPanel.AutoScroll = true;
+			m_dataPanel.Resize += DataPanel_Resize;
+			m_dataPanel.DragEnter += DataPanel_DragEnter;
+			m_dataPanel.DragDrop += DataPanel_DragDrop;
 
             // Setup TextBox
             m_TextBox.Visible = false;
@@ -120,5 +121,87 @@ namespace Project
             m_Name = m_TextBox.Text;
             m_collapseGroup.Text = m_Name;
         }
-    }
+
+		private void ResizeData()
+		{
+			int nImageSizeWPadding = (Group.m_nImageSize + Group.m_nImagePadding);
+			int nColumnNum = m_dataPanel.Width / nImageSizeWPadding;
+
+			for (int i = 0; i < m_dataList.Count; ++i)
+			{
+				int row = i / nColumnNum;
+				int col = i % nColumnNum;
+
+				int y = row * nImageSizeWPadding;
+				int x = col * nImageSizeWPadding + 10;
+
+				m_dataList[i].Location = new Point(x, y);
+			}
+		}
+
+		private void DataPanel_Resize(object sender, EventArgs e)
+		{
+			ResizeData();
+		}
+
+		private void DataPanel_DragEnter(object sender, DragEventArgs e)
+		{
+			// Check that the data is a picturebox
+			if (e.Data.GetDataPresent(typeof(PictureBox)))
+				e.Effect = DragDropEffects.Move;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+
+		private void DataPanel_DragDrop(object sender, DragEventArgs e)
+		{
+
+			// Check that the sender is a picturebox
+			PictureBox temp = e.Data.GetData(typeof(PictureBox)) as PictureBox;
+			if (temp == null)
+			{
+				e.Effect = DragDropEffects.None;
+				return;
+			}
+
+			// Check that it came from DataGroupForm
+			DataGroupForm f = temp.FindForm() as DataGroupForm;
+			if (f == null)
+			{
+				e.Effect = DragDropEffects.None;
+				return;
+			}
+
+			// Check if PictureBox is in Ungrouped List
+			if (f.unGroupedList.Contains(temp))
+			{
+				f.unGroupedList.Remove(temp);
+				f.ResizeUngrouped();
+
+				temp.Parent = m_dataPanel;
+
+				this.m_dataList.Add(temp);
+				this.ResizeData();
+
+				return;
+			}
+			
+			// Check if PictureBox is in a Group
+			foreach (Group g in f.groupList)
+			{
+				if (g.m_dataList.Contains(temp))
+				{
+					g.m_dataList.Remove(temp);
+					g.ResizeData();
+
+					temp.Parent = m_dataPanel;
+
+					this.m_dataList.Add(temp);
+					this.ResizeData();
+
+					return;
+				}
+			}
+		}
+	}
 }
