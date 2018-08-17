@@ -71,6 +71,7 @@ namespace Project
             // Setup Data Panel
             m_dataPanel.Size = new System.Drawing.Size(parentPanel.Size.Width, m_nDataPanelHeight);
             m_dataPanel.Dock = DockStyle.Top;
+
 			m_dataPanel.BackColor = Color.DimGray;
 			m_dataPanel.AllowDrop = true;
 			m_dataPanel.AutoScroll = true;
@@ -85,6 +86,18 @@ namespace Project
             m_TextBox.Size = new System.Drawing.Size(100, 20);
             m_TextBox.TabIndex = 3;
         }
+
+		// Moves Images back to Ungrouped
+		private void UngroupImages()
+		{
+			DataGroupForm form = (DataGroupForm)m_parentPanel.FindForm();
+			foreach (PictureBox picture in m_dataList)
+			{
+				picture.Parent = form.GetUnGroupedPanel();
+				form.unGroupedList.Add(picture);
+			}
+			form.ResizeUngrouped();
+		}
 
 		public List<PictureBox> GetDataList()
 		{
@@ -113,6 +126,7 @@ namespace Project
         {
             m_parentPanel.Controls.Remove(m_dataPanel);
             m_parentPanel.Controls.Remove(m_headerPanel);
+			UngroupImages();
             m_container.Remove(this);
         }
 
@@ -122,7 +136,7 @@ namespace Project
             m_collapseGroup.Text = m_Name;
         }
 
-		private void ResizeData()
+		public void ResizeData()
 		{
 			int nImageSizeWPadding = (Group.m_nImageSize + Group.m_nImagePadding);
 			int nColumnNum = m_dataPanel.Width / nImageSizeWPadding;
@@ -202,6 +216,23 @@ namespace Project
 					return;
 				}
 			}
+		}
+
+		public void GetData(out string name, out List<PictureBox> dataList)
+		{
+			name = m_Name;
+			dataList = m_dataList;
+		}
+
+		public void SetName(string name)
+		{
+			m_TextBox.Text = name;
+			m_Name = name;
+		}
+
+		public Panel GetDataPanel()
+		{
+			return m_dataPanel;
 		}
 	}
 }

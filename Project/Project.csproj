@@ -51,6 +51,7 @@
     <Compile Include="DataGroupForm.Designer.cs">
       <DependentUpon>DataGroupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FilePalette.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

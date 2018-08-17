@@ -9,12 +9,13 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Project
 {
 	public partial class DataGroupForm : Form
 	{
-		public List<Group> groupList = null;
+		public List<Group> groupList = new List<Group>();
 		public List<PictureBox> unGroupedList = new List<PictureBox>();
 
 		public bool internalDrag = false;
@@ -25,22 +26,22 @@ namespace Project
 		private List<Image> newImageList = new List<Image>();
 		private Thread getImageThread;
 
-		public DataGroupForm()
+		public DataGroupForm(bool loadLast)
 		{
-			InitializeComponent();
-			
+			InitializeComponent();			
 
 			// Double Buffering
 			typeof(SplitContainer).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
 			| BindingFlags.Instance | BindingFlags.NonPublic, null,
 			splitContainer1, new object[] { true });
-		}
 
-		public void SetList(List<Group> list)
-		{
-			groupList = list;
+			//Load Previous Palette
+			if (loadLast)
+			{
+				LoadPalette("./Last.ipal");
+			}
 		}
-
+		
 		private void DataGroupForm_Load(object sender, EventArgs e)
 		{
 
@@ -59,6 +60,7 @@ namespace Project
 			{
 				var temp = new PictureBox();
 				temp.Image = image;
+				temp.ImageLocation = (string)image.Tag;
 				temp.Parent = UngroupedPanel;
 				temp.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
 				temp.SizeMode = PictureBoxSizeMode.Zoom;
@@ -87,19 +89,15 @@ namespace Project
 					newImageList.Clear();
 					foreach (string path in popup.FileNames)
 					{
-						newImageList.Add(new Bitmap(path));
+						Image temp = new Bitmap(path);
+						temp.Tag = path;
+						newImageList.Add(temp);
 					}
 
 					// Import Images
 					ImportImages();
 				}
 			}
-		}
-
-		// Hide the form
-		private void HideButton_Click(object sender, EventArgs e)
-		{
-			this.Hide();
 		}
 
 		private void SplitPanel2_DragEnter(object sender, DragEventArgs e)
@@ -159,7 +157,9 @@ namespace Project
 			newImageList.Clear();
 			foreach (string path in dragPathList)
 			{
-				newImageList.Add(new Bitmap(path));
+				Image temp = new Bitmap(path);
+				temp.Tag = path;
+				newImageList.Add(temp);
 			}
 		}
 
@@ -178,6 +178,11 @@ namespace Project
 
 				unGroupedList[i].Location = new Point(x, y);
 			}
+		}
+
+		public Panel GetUnGroupedPanel()
+		{
+			return UngroupedPanel;
 		}
 
 		private void UngroupedPanel_Resize(object sender, EventArgs e)
@@ -205,9 +210,129 @@ namespace Project
 		private void DataGroupForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			// Save current as LastUsed.ipal
+			SavePalette("./Last.ipal");
 
 			Console.WriteLine("HELP!!! Cameron murdered me!!!");
 		}
 
+		private void hideToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+		}
+
+		private void SavePalette(string path)
+		{
+			FilePalette data = new FilePalette();
+
+			// Add Ungrouped Images
+			foreach (PictureBox pb in unGroupedList)
+			{
+				data.unGroupedList.Add(pb.ImageLocation);
+			}
+
+			// Add Groups
+			foreach (Group group in groupList)
+			{
+				GroupData temp = new GroupData();
+				List<PictureBox> list;
+
+				group.GetData(out temp.name, out list);
+				foreach (PictureBox pb in list)
+				{
+					temp.dataList.Add(pb.ImageLocation);
+				}
+
+				data.groupList.Add(temp);
+			}
+
+			// Serialize
+			XmlSerializer serializer = new XmlSerializer(typeof(FilePalette));
+			using (StreamWriter writer = new StreamWriter(path))
+			{
+				serializer.Serialize(writer, data);
+			}
+		}
+
+		private void LoadPalette(string path)
+		{
+
+			// Load Blank Palette
+			if (!File.Exists(path))
+			{
+
+				return;
+			}
+
+			// Deserialize
+			XmlSerializer serializer = new XmlSerializer(typeof(FilePalette));
+			using (StreamReader reader = new StreamReader(path))
+			{
+				FilePalette data = (FilePalette)serializer.Deserialize(reader);
+
+				foreach(string imageLoc in data.unGroupedList)
+				{
+					// Get Image from Save
+					Image image = new Bitmap(imageLoc);
+					image.Tag = imageLoc;
+
+					// Add Image to imageList
+					imageList.Add(image);
+
+					// Create PictureBox
+					PictureBox pictureBox = new PictureBox();
+					pictureBox.Image = image;
+					pictureBox.ImageLocation = (string)image.Tag;
+					pictureBox.Parent = UngroupedPanel;
+					pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
+					pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+					pictureBox.MouseDown += PictureBox_MouseDown;
+					pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
+
+					// Add PictureBox to unGroupedList
+					unGroupedList.Add(pictureBox);					
+				}
+				ResizeUngrouped();
+
+				foreach (GroupData groupData in data.groupList)
+				{
+					Group temp = new Group(groupList, splitContainer1.Panel1);
+					groupList.Add(temp);
+
+					// Set Name
+					temp.SetName(groupData.name);
+
+					// Get Data
+					foreach (string imageLoc in groupData.dataList)
+					{
+						// Get Image from Save
+						Image image = new Bitmap(imageLoc);
+
+						// Add Image to imageList
+						imageList.Add(image);
+						image.Tag = imageLoc;
+
+						// Create PictureBox
+						PictureBox pictureBox = new PictureBox();
+						pictureBox.Image = image;
+						pictureBox.ImageLocation = (string)image.Tag;
+						pictureBox.Parent = temp.GetDataPanel();
+						pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
+						pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+						pictureBox.MouseDown += PictureBox_MouseDown;
+						pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
+
+						// Add PictureBox to unGroupedList
+						temp.GetDataList().Add(pictureBox);
+					}
+					temp.ResizeData();
+				}
+			}
+
+		}
+
+		private void ResetPalette()
+		{
+			LoadPalette(null);
+		}
 	}
 }

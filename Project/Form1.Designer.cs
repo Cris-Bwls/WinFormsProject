@@ -131,7 +131,7 @@
 			// imagePalletteToolStripMenuItem
 			// 
 			this.imagePalletteToolStripMenuItem.Name = "imagePalletteToolStripMenuItem";
-			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.imagePalletteToolStripMenuItem.Text = "Image Palette";
 			this.imagePalletteToolStripMenuItem.Click += new System.EventHandler(this.imagePalletteToolStripMenuItem_Click);
 			// 

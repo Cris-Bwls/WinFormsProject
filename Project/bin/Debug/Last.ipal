@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FilePalette xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <groupList>
+    <GroupData>
+      <name>3</name>
+      <dataList>
+        <string>C:\Users\s181210\Pictures\Jellyfish.jpg</string>
+        <string>C:\Users\s181210\Pictures\Koala.jpg</string>
+        <string>C:\Users\s181210\Pictures\Hydrangeas.jpg</string>
+        <string>C:\Users\s181210\Pictures\Tulips.jpg</string>
+      </dataList>
+    </GroupData>
+    <GroupData>
+      <name>Group</name>
+      <dataList>
+        <string>C:\Users\s181210\Pictures\Lighthouse.jpg</string>
+      </dataList>
+    </GroupData>
+    <GroupData>
+      <name>Group</name>
+      <dataList>
+        <string>C:\Users\s181210\Pictures\Desert.jpg</string>
+        <string>C:\Users\s181210\Pictures\Penguins.jpg</string>
+        <string>C:\Users\s181210\Pictures\Chrysanthemum.jpg</string>
+      </dataList>
+    </GroupData>
+  </groupList>
+  <unGroupedList />
+</FilePalette>

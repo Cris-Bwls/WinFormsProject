@@ -13,10 +13,9 @@ namespace Project
 {	
     public partial class Form1 : Form
     {
-        private List<Group> groupList = new List<Group>();
         private List<List<PictureBoxData>> mapArray = new List<List<PictureBoxData>>();
 		private List<PictureBox> pictureBoxList = new List<PictureBox>();
-		private DataGroupForm dataGroupForm = new DataGroupForm();
+		private DataGroupForm dataGroupForm = new DataGroupForm(true);
 		
 		private int mapHeight = 0;
 		private int mapWidth = 0;
@@ -24,9 +23,7 @@ namespace Project
 		public Form1()
         {
             InitializeComponent();
-
-			//dataGroupForm.MdiParent = this;
-			dataGroupForm.SetList(groupList);
+			
 			dataGroupForm.Show(this);
 
 			// Init TextBoxes
@@ -62,7 +59,7 @@ namespace Project
 		private void imagePalletteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (dataGroupForm.IsDisposed)
-				dataGroupForm = new DataGroupForm();
+				dataGroupForm = new DataGroupForm(true);
 
 			dataGroupForm.Visible = !dataGroupForm.Visible;
 		}
