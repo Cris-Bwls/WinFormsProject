@@ -143,6 +143,9 @@ namespace Project
 						string ext = Path.GetExtension(path).ToLower();
 						if ((ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".bmp"))
 						{
+							// Check if in project dir
+							//CB:HERENOW
+
 							dragPathList.Add(path);
 							result = true;
 						}
@@ -211,8 +214,6 @@ namespace Project
 		{
 			// Save current as LastUsed.ipal
 			SavePalette("./Last.ipal");
-
-			Console.WriteLine("HELP!!! Cameron murdered me!!!");
 		}
 
 		private void hideToolStripMenuItem_Click(object sender, EventArgs e)
