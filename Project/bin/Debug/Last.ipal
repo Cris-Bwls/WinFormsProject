@@ -2,28 +2,32 @@
 <FilePalette xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <groupList>
     <GroupData>
-      <name>3</name>
+      <name>Group</name>
       <dataList>
-        <string>C:\Users\s181210\Pictures\Jellyfish.jpg</string>
-        <string>C:\Users\s181210\Pictures\Koala.jpg</string>
-        <string>C:\Users\s181210\Pictures\Hydrangeas.jpg</string>
-        <string>C:\Users\s181210\Pictures\Tulips.jpg</string>
+        <string>.\Images\77423.jpg</string>
+        <string>.\Images\F-35-Flight_1920x1080_4581.jpg</string>
+        <string>.\Images\sdd_f135_001.jpg</string>
+        <string>.\Images\sdd_f35testb_101.jpg</string>
       </dataList>
     </GroupData>
     <GroupData>
       <name>Group</name>
       <dataList>
-        <string>C:\Users\s181210\Pictures\Lighthouse.jpg</string>
-      </dataList>
-    </GroupData>
-    <GroupData>
-      <name>Group</name>
-      <dataList>
-        <string>C:\Users\s181210\Pictures\Desert.jpg</string>
-        <string>C:\Users\s181210\Pictures\Penguins.jpg</string>
-        <string>C:\Users\s181210\Pictures\Chrysanthemum.jpg</string>
+        <string>.\Images\f35c_080318_hr.jpg</string>
+        <string>.\Images\F-35C-completes-initial-catapult-testing.jpg</string>
+        <string>.\Images\sdd_f35testb_003.jpg</string>
+        <string>.\Images\sdd_f35testa_072.jpg</string>
       </dataList>
     </GroupData>
   </groupList>
-  <unGroupedList />
+  <unGroupedList>
+    <string>.\Images\f35c_080318_hr.jpg</string>
+    <string>.\Images\F-35C-completes-initial-catapult-testing.jpg</string>
+    <string>.\Images\F-35-Flight_1920x1080_4581.jpg</string>
+    <string>.\Images\sdd_f35testa_072.jpg</string>
+    <string>.\Images\sdd_f35testb_003.jpg</string>
+    <string>.\Images\sdd_f35testb_101.jpg</string>
+    <string>.\Images\sdd_f135_001.jpg</string>
+    <string>.\Images\77423.jpg</string>
+  </unGroupedList>
 </FilePalette>

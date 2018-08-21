@@ -25,6 +25,8 @@ namespace Project
 		private List<Image> imageList = new List<Image>();
 		private List<Image> newImageList = new List<Image>();
 		private Thread getImageThread;
+		
+		private string root = Application.StartupPath;
 
 		public DataGroupForm(bool loadLast)
 		{
@@ -87,8 +89,14 @@ namespace Project
 				{
 					// Add Images to newImageList
 					newImageList.Clear();
-					foreach (string path in popup.FileNames)
+					foreach (string fileName in popup.FileNames)
 					{
+						string path = fileName;
+						//Check if path is in project root
+						if (fileName.Contains(root))
+							//path = fileName.Trim(root.ToArray());
+							path ="." + fileName.Remove(0, root.Length);
+
 						Image temp = new Bitmap(path);
 						temp.Tag = path;
 						newImageList.Add(temp);
@@ -138,14 +146,19 @@ namespace Project
 				Array data = ((IDataObject)e.Data).GetData("FileDrop") as Array;
 				if (data != null)
 				{
-					foreach (string path in data)
+					foreach (string fileName in data)
 					{
+						string path = fileName;
+						//Check if path is in project root
+						if (fileName.Contains(root))
+							//path = fileName.Trim(root.ToArray());
+							path = "." + fileName.Remove(0, root.Length);
+						//else
+							// Give Warning to User
+
 						string ext = Path.GetExtension(path).ToLower();
 						if ((ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".bmp"))
 						{
-							// Check if in project dir
-							//CB:HERENOW
-
 							dragPathList.Add(path);
 							result = true;
 						}
@@ -256,11 +269,11 @@ namespace Project
 
 		private void LoadPalette(string path)
 		{
+			ClearData();
 
 			// Load Blank Palette
 			if (!File.Exists(path))
 			{
-
 				return;
 			}
 
@@ -272,6 +285,13 @@ namespace Project
 
 				foreach(string imageLoc in data.unGroupedList)
 				{
+					// Check image exists at location
+					if (!File.Exists(imageLoc))
+					{
+						// File does not exist
+						continue;
+					}
+
 					// Get Image from Save
 					Image image = new Bitmap(imageLoc);
 					image.Tag = imageLoc;
@@ -306,24 +326,34 @@ namespace Project
 					foreach (string imageLoc in groupData.dataList)
 					{
 						// Get Image from Save
-						Image image = new Bitmap(imageLoc);
+						try
+						{
+							Image image;
+							image = new Bitmap(imageLoc);
 
-						// Add Image to imageList
-						imageList.Add(image);
-						image.Tag = imageLoc;
+							// Add Image to imageList
+							imageList.Add(image);
+							image.Tag = imageLoc;
 
-						// Create PictureBox
-						PictureBox pictureBox = new PictureBox();
-						pictureBox.Image = image;
-						pictureBox.ImageLocation = (string)image.Tag;
-						pictureBox.Parent = temp.GetDataPanel();
-						pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
-						pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-						pictureBox.MouseDown += PictureBox_MouseDown;
-						pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
+							// Create PictureBox
+							PictureBox pictureBox = new PictureBox();
+							pictureBox.Image = image;
+							pictureBox.ImageLocation = (string)image.Tag;
+							pictureBox.Parent = temp.GetDataPanel();
+							pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
+							pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+							pictureBox.MouseDown += PictureBox_MouseDown;
+							pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
 
-						// Add PictureBox to unGroupedList
-						temp.GetDataList().Add(pictureBox);
+							// Add PictureBox to unGroupedList
+							temp.GetDataList().Add(pictureBox);
+						}
+						catch (Exception e)
+						{
+							// TODO
+							// Create new Form saying image not found
+							Console.WriteLine(e.Message);
+						}
 					}
 					temp.ResizeData();
 				}
@@ -333,7 +363,61 @@ namespace Project
 
 		private void ResetPalette()
 		{
-			LoadPalette(null);
+			ClearData();
+			//LoadPalette(null);
+		}
+
+		private void ClearData()
+		{
+			// Remove Groups from controls
+			foreach (Group group in groupList)
+			{
+				group.RemoveControls();
+			}
+			// Clear Group List
+			groupList.Clear();
+
+			// Remove Ungrouped PictureBoxes from control
+			UngroupedPanel.Controls.Clear();
+
+			// Clear Ungrouped List
+			unGroupedList.Clear();
+
+			// Clear Image List
+			imageList.Clear();
+		}
+
+		private void newToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ResetPalette();
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (SaveFileDialog popup = new SaveFileDialog())
+			{
+				popup.Title = "Save Palette";
+				popup.Filter = "Image Palette File|*.ipal";
+
+				if (popup.ShowDialog() == DialogResult.OK)
+				{
+					SavePalette(popup.FileName);
+				}
+			}
+		}
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog popup = new OpenFileDialog())
+			{
+				popup.Title = "Load Palette";
+				popup.Filter = "Image Palette File|*.ipal";
+
+				if (popup.ShowDialog() == DialogResult.OK)
+				{
+					LoadPalette(popup.FileName);
+				}
+			}
 		}
 	}
 }

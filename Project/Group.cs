@@ -234,5 +234,11 @@ namespace Project
 		{
 			return m_dataPanel;
 		}
+
+		public void RemoveControls()
+		{
+			m_parentPanel.Controls.Remove(m_headerPanel);
+			m_parentPanel.Controls.Remove(m_dataPanel);
+		}
 	}
 }
