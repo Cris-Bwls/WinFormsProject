@@ -13,10 +13,22 @@ using System.Xml.Serialization;
 
 namespace Project
 {
+	enum ErrorState
+	{
+		Default,
+
+		NotRoot,
+		DoesNotExist
+
+	}
+
 	public partial class DataGroupForm : Form
 	{
 		public List<Group> groupList = new List<Group>();
 		public List<PictureBox> unGroupedList = new List<PictureBox>();
+
+		private ErrorState errorState = ErrorState.Default;
+		private string errorText;
 
 		public bool internalDrag = false;
 		private bool isString = false;
@@ -94,8 +106,9 @@ namespace Project
 						string path = fileName;
 						//Check if path is in project root
 						if (fileName.Contains(root))
-							//path = fileName.Trim(root.ToArray());
-							path ="." + fileName.Remove(0, root.Length);
+							path = fileName.TrimStart(root.ToArray());
+						else
+							errorState = ErrorState.NotRoot;
 
 						Image temp = new Bitmap(path);
 						temp.Tag = path;
@@ -151,10 +164,9 @@ namespace Project
 						string path = fileName;
 						//Check if path is in project root
 						if (fileName.Contains(root))
-							//path = fileName.Trim(root.ToArray());
-							path = "." + fileName.Remove(0, root.Length);
-						//else
-							// Give Warning to User
+							path = fileName.TrimStart(root.ToArray());
+						else
+							errorState = ErrorState.NotRoot;
 
 						string ext = Path.GetExtension(path).ToLower();
 						if ((ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".bmp"))
@@ -176,6 +188,14 @@ namespace Project
 				Image temp = new Bitmap(path);
 				temp.Tag = path;
 				newImageList.Add(temp);
+			}
+			if (errorState == ErrorState.NotRoot)
+			{
+				// Give Warning to User
+				string text = "Image is not in root directory, only share palettes that have images in root directory";
+				ErrorForm errorForm = new ErrorForm(text);
+				errorForm.ShowDialog();
+				errorState = ErrorState.Default;
 			}
 		}
 
@@ -285,10 +305,11 @@ namespace Project
 
 				foreach(string imageLoc in data.unGroupedList)
 				{
-					// Check image exists at location
+					// Check image exists
 					if (!File.Exists(imageLoc))
 					{
-						// File does not exist
+						errorState = ErrorState.DoesNotExist;
+						errorText += (imageLoc + "\n");
 						continue;
 					}
 
@@ -325,37 +346,44 @@ namespace Project
 					// Get Data
 					foreach (string imageLoc in groupData.dataList)
 					{
+						// Check image exists
+						if (!File.Exists(imageLoc))
+						{
+							errorState = ErrorState.DoesNotExist;
+							errorText += (imageLoc + "\n");
+							continue;
+						}
 						// Get Image from Save
-						try
-						{
-							Image image;
-							image = new Bitmap(imageLoc);
+						Image image;
+						image = new Bitmap(imageLoc);
 
-							// Add Image to imageList
-							imageList.Add(image);
-							image.Tag = imageLoc;
+						// Add Image to imageList
+						imageList.Add(image);
+						image.Tag = imageLoc;
 
-							// Create PictureBox
-							PictureBox pictureBox = new PictureBox();
-							pictureBox.Image = image;
-							pictureBox.ImageLocation = (string)image.Tag;
-							pictureBox.Parent = temp.GetDataPanel();
-							pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
-							pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-							pictureBox.MouseDown += PictureBox_MouseDown;
-							pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
+						// Create PictureBox
+						PictureBox pictureBox = new PictureBox();
+						pictureBox.Image = image;
+						pictureBox.ImageLocation = (string)image.Tag;
+						pictureBox.Parent = temp.GetDataPanel();
+						pictureBox.Size = new Size(Group.m_nImageSize, Group.m_nImageSize);
+						pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+						pictureBox.MouseDown += PictureBox_MouseDown;
+						pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
 
-							// Add PictureBox to unGroupedList
-							temp.GetDataList().Add(pictureBox);
-						}
-						catch (Exception e)
-						{
-							// TODO
-							// Create new Form saying image not found
-							Console.WriteLine(e.Message);
-						}
+						// Add PictureBox to unGroupedList
+						temp.GetDataList().Add(pictureBox);
 					}
+					
 					temp.ResizeData();
+				}
+
+				// If Image failed to load
+				if (errorState == ErrorState.DoesNotExist)
+				{
+					errorState = ErrorState.Default;
+					ErrorForm errorForm = new ErrorForm("The following Images failed to load: \n" + errorText);
+					errorForm.ShowDialog();
 				}
 			}
 

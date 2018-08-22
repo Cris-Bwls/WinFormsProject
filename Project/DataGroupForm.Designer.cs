@@ -100,9 +100,9 @@
 			// 
 			// NewGroupButton
 			// 
-			this.NewGroupButton.Location = new System.Drawing.Point(12, 21);
+			this.NewGroupButton.Location = new System.Drawing.Point(15, 25);
 			this.NewGroupButton.Name = "NewGroupButton";
-			this.NewGroupButton.Size = new System.Drawing.Size(96, 23);
+			this.NewGroupButton.Size = new System.Drawing.Size(100, 25);
 			this.NewGroupButton.TabIndex = 5;
 			this.NewGroupButton.Text = "New Group";
 			this.NewGroupButton.UseVisualStyleBackColor = true;
@@ -111,9 +111,9 @@
 			// ImportImageButton
 			// 
 			this.ImportImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ImportImageButton.Location = new System.Drawing.Point(199, 21);
+			this.ImportImageButton.Location = new System.Drawing.Point(200, 25);
 			this.ImportImageButton.Name = "ImportImageButton";
-			this.ImportImageButton.Size = new System.Drawing.Size(103, 23);
+			this.ImportImageButton.Size = new System.Drawing.Size(100, 25);
 			this.ImportImageButton.TabIndex = 6;
 			this.ImportImageButton.Text = "Import Image";
 			this.ImportImageButton.UseVisualStyleBackColor = true;
@@ -147,21 +147,21 @@
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.newToolStripMenuItem.Text = "New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.loadToolStripMenuItem.Text = "Load";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
