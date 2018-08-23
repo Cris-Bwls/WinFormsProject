@@ -39,6 +39,19 @@
 			this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imagePalletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ToolbarPanel = new System.Windows.Forms.Panel();
+			this.MapOffsetPanel = new System.Windows.Forms.Panel();
+			this.OffsetChangedButton = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.YPosTextBox = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.XPosTextBox = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.DisplaySizePanel = new System.Windows.Forms.Panel();
+			this.ImageSizeTextBox = new System.Windows.Forms.TextBox();
+			this.SizeChangedButton = new System.Windows.Forms.Button();
+			this.Label1 = new System.Windows.Forms.Label();
 			this.SizePanel = new System.Windows.Forms.Panel();
 			this.ResizeMapButton = new System.Windows.Forms.Button();
 			this.SizeLabel = new System.Windows.Forms.Label();
@@ -49,11 +62,17 @@
 			this.WidthTextBox = new System.Windows.Forms.TextBox();
 			this.WidthLabel = new System.Windows.Forms.Label();
 			this.WorkPanel = new System.Windows.Forms.Panel();
+			this.mapPanel = new System.Windows.Forms.Panel();
 			this.menuStrip1.SuspendLayout();
 			this.ToolbarPanel.SuspendLayout();
+			this.MapOffsetPanel.SuspendLayout();
+			this.panel2.SuspendLayout();
+			this.panel3.SuspendLayout();
+			this.DisplaySizePanel.SuspendLayout();
 			this.SizePanel.SuspendLayout();
 			this.HeightPanel.SuspendLayout();
 			this.WidthPanel.SuspendLayout();
+			this.WorkPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -131,13 +150,15 @@
 			// imagePalletteToolStripMenuItem
 			// 
 			this.imagePalletteToolStripMenuItem.Name = "imagePalletteToolStripMenuItem";
-			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.imagePalletteToolStripMenuItem.Text = "Image Palette";
 			this.imagePalletteToolStripMenuItem.Click += new System.EventHandler(this.imagePalletteToolStripMenuItem_Click);
 			// 
 			// ToolbarPanel
 			// 
 			this.ToolbarPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.ToolbarPanel.Controls.Add(this.MapOffsetPanel);
+			this.ToolbarPanel.Controls.Add(this.DisplaySizePanel);
 			this.ToolbarPanel.Controls.Add(this.SizePanel);
 			this.ToolbarPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ToolbarPanel.Location = new System.Drawing.Point(947, 24);
@@ -145,14 +166,148 @@
 			this.ToolbarPanel.Size = new System.Drawing.Size(270, 630);
 			this.ToolbarPanel.TabIndex = 2;
 			// 
+			// MapOffsetPanel
+			// 
+			this.MapOffsetPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.MapOffsetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.MapOffsetPanel.Controls.Add(this.OffsetChangedButton);
+			this.MapOffsetPanel.Controls.Add(this.label2);
+			this.MapOffsetPanel.Controls.Add(this.panel2);
+			this.MapOffsetPanel.Controls.Add(this.panel3);
+			this.MapOffsetPanel.Location = new System.Drawing.Point(18, 211);
+			this.MapOffsetPanel.Name = "MapOffsetPanel";
+			this.MapOffsetPanel.Size = new System.Drawing.Size(240, 86);
+			this.MapOffsetPanel.TabIndex = 4;
+			// 
+			// OffsetChangedButton
+			// 
+			this.OffsetChangedButton.Location = new System.Drawing.Point(78, 60);
+			this.OffsetChangedButton.Name = "OffsetChangedButton";
+			this.OffsetChangedButton.Size = new System.Drawing.Size(84, 23);
+			this.OffsetChangedButton.TabIndex = 3;
+			this.OffsetChangedButton.Text = "Change Offset";
+			this.OffsetChangedButton.UseVisualStyleBackColor = true;
+			this.OffsetChangedButton.Click += new System.EventHandler(this.OffsetChangedButton_Click);
+			// 
+			// label2
+			// 
+			this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(93, 0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(69, 13);
+			this.label2.TabIndex = 2;
+			this.label2.Text = "Map Offset";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// panel2
+			// 
+			this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.panel2.Controls.Add(this.YPosTextBox);
+			this.panel2.Controls.Add(this.label3);
+			this.panel2.Location = new System.Drawing.Point(128, 14);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(100, 40);
+			this.panel2.TabIndex = 1;
+			// 
+			// YPosTextBox
+			// 
+			this.YPosTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.YPosTextBox.Location = new System.Drawing.Point(0, 20);
+			this.YPosTextBox.Name = "YPosTextBox";
+			this.YPosTextBox.Size = new System.Drawing.Size(100, 20);
+			this.YPosTextBox.TabIndex = 2;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(32, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(35, 13);
+			this.label3.TabIndex = 1;
+			this.label3.Text = "Y Pos";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// panel3
+			// 
+			this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.panel3.Controls.Add(this.XPosTextBox);
+			this.panel3.Controls.Add(this.label4);
+			this.panel3.Location = new System.Drawing.Point(10, 14);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(100, 40);
+			this.panel3.TabIndex = 0;
+			// 
+			// XPosTextBox
+			// 
+			this.XPosTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.XPosTextBox.Location = new System.Drawing.Point(0, 20);
+			this.XPosTextBox.Name = "XPosTextBox";
+			this.XPosTextBox.Size = new System.Drawing.Size(100, 20);
+			this.XPosTextBox.TabIndex = 1;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(34, 0);
+			this.label4.Name = "label4";
+			this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "X Pos";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// DisplaySizePanel
+			// 
+			this.DisplaySizePanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.DisplaySizePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.DisplaySizePanel.Controls.Add(this.ImageSizeTextBox);
+			this.DisplaySizePanel.Controls.Add(this.SizeChangedButton);
+			this.DisplaySizePanel.Controls.Add(this.Label1);
+			this.DisplaySizePanel.Location = new System.Drawing.Point(18, 314);
+			this.DisplaySizePanel.Name = "DisplaySizePanel";
+			this.DisplaySizePanel.Size = new System.Drawing.Size(240, 51);
+			this.DisplaySizePanel.TabIndex = 3;
+			// 
+			// ImageSizeTextBox
+			// 
+			this.ImageSizeTextBox.Location = new System.Drawing.Point(10, 16);
+			this.ImageSizeTextBox.Name = "ImageSizeTextBox";
+			this.ImageSizeTextBox.Size = new System.Drawing.Size(100, 20);
+			this.ImageSizeTextBox.TabIndex = 4;
+			// 
+			// SizeChangedButton
+			// 
+			this.SizeChangedButton.Location = new System.Drawing.Point(146, 13);
+			this.SizeChangedButton.Name = "SizeChangedButton";
+			this.SizeChangedButton.Size = new System.Drawing.Size(82, 23);
+			this.SizeChangedButton.TabIndex = 3;
+			this.SizeChangedButton.Text = "Change Size";
+			this.SizeChangedButton.UseVisualStyleBackColor = true;
+			this.SizeChangedButton.Click += new System.EventHandler(this.SizeChangedButton_Click);
+			// 
+			// Label1
+			// 
+			this.Label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.Label1.AutoSize = true;
+			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Label1.Location = new System.Drawing.Point(84, -1);
+			this.Label1.Name = "Label1";
+			this.Label1.Size = new System.Drawing.Size(69, 13);
+			this.Label1.TabIndex = 2;
+			this.Label1.Text = "Image Size";
+			this.Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
 			// SizePanel
 			// 
 			this.SizePanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.SizePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.SizePanel.Controls.Add(this.ResizeMapButton);
 			this.SizePanel.Controls.Add(this.SizeLabel);
 			this.SizePanel.Controls.Add(this.HeightPanel);
 			this.SizePanel.Controls.Add(this.WidthPanel);
-			this.SizePanel.Location = new System.Drawing.Point(18, 13);
+			this.SizePanel.Location = new System.Drawing.Point(18, 15);
 			this.SizePanel.Name = "SizePanel";
 			this.SizePanel.Size = new System.Drawing.Size(240, 86);
 			this.SizePanel.TabIndex = 2;
@@ -172,7 +327,7 @@
 			this.SizeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.SizeLabel.AutoSize = true;
 			this.SizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.SizeLabel.Location = new System.Drawing.Point(94, 0);
+			this.SizeLabel.Location = new System.Drawing.Point(93, 0);
 			this.SizeLabel.Name = "SizeLabel";
 			this.SizeLabel.Size = new System.Drawing.Size(59, 13);
 			this.SizeLabel.TabIndex = 2;
@@ -184,7 +339,7 @@
 			this.HeightPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.HeightPanel.Controls.Add(this.HeightTextBox);
 			this.HeightPanel.Controls.Add(this.HeightLabel);
-			this.HeightPanel.Location = new System.Drawing.Point(129, 14);
+			this.HeightPanel.Location = new System.Drawing.Point(128, 14);
 			this.HeightPanel.Name = "HeightPanel";
 			this.HeightPanel.Size = new System.Drawing.Size(100, 40);
 			this.HeightPanel.TabIndex = 1;
@@ -212,7 +367,7 @@
 			this.WidthPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.WidthPanel.Controls.Add(this.WidthTextBox);
 			this.WidthPanel.Controls.Add(this.WidthLabel);
-			this.WidthPanel.Location = new System.Drawing.Point(11, 14);
+			this.WidthPanel.Location = new System.Drawing.Point(10, 14);
 			this.WidthPanel.Name = "WidthPanel";
 			this.WidthPanel.Size = new System.Drawing.Size(100, 40);
 			this.WidthPanel.TabIndex = 0;
@@ -240,11 +395,24 @@
 			// 
 			this.WorkPanel.AutoScroll = true;
 			this.WorkPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.WorkPanel.Controls.Add(this.mapPanel);
 			this.WorkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.WorkPanel.Location = new System.Drawing.Point(0, 24);
 			this.WorkPanel.Name = "WorkPanel";
 			this.WorkPanel.Size = new System.Drawing.Size(947, 630);
 			this.WorkPanel.TabIndex = 3;
+			// 
+			// mapPanel
+			// 
+			this.mapPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.mapPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.mapPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.mapPanel.Location = new System.Drawing.Point(20, 15);
+			this.mapPanel.Name = "mapPanel";
+			this.mapPanel.Size = new System.Drawing.Size(900, 600);
+			this.mapPanel.TabIndex = 0;
 			// 
 			// Form1
 			// 
@@ -261,12 +429,21 @@
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ToolbarPanel.ResumeLayout(false);
+			this.MapOffsetPanel.ResumeLayout(false);
+			this.MapOffsetPanel.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.DisplaySizePanel.ResumeLayout(false);
+			this.DisplaySizePanel.PerformLayout();
 			this.SizePanel.ResumeLayout(false);
 			this.SizePanel.PerformLayout();
 			this.HeightPanel.ResumeLayout(false);
 			this.HeightPanel.PerformLayout();
 			this.WidthPanel.ResumeLayout(false);
 			this.WidthPanel.PerformLayout();
+			this.WorkPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -294,6 +471,20 @@
 		private System.Windows.Forms.Panel SizePanel;
 		private System.Windows.Forms.Label SizeLabel;
 		private System.Windows.Forms.Button ResizeMapButton;
+		private System.Windows.Forms.Panel mapPanel;
+		private System.Windows.Forms.Panel DisplaySizePanel;
+		private System.Windows.Forms.Button SizeChangedButton;
+		private System.Windows.Forms.Label Label1;
+		private System.Windows.Forms.TextBox ImageSizeTextBox;
+		private System.Windows.Forms.Panel MapOffsetPanel;
+		private System.Windows.Forms.Button OffsetChangedButton;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.TextBox YPosTextBox;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.TextBox XPosTextBox;
+		private System.Windows.Forms.Label label4;
 	}
 }
 

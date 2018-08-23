@@ -30,19 +30,26 @@ namespace Project
 		private ErrorState errorState = ErrorState.Default;
 		private string errorText;
 
-		public bool internalDrag = false;
+		public bool isDrag = false;
 		private bool isString = false;
 
 		private List<string> dragPathList = new List<string>();
 		private List<Image> imageList = new List<Image>();
 		private List<Image> newImageList = new List<Image>();
 		private Thread getImageThread;
-		
+		private System.Windows.Forms.Timer dragTimer = new System.Windows.Forms.Timer();
+
+		private const int delay = 100; //Minimum of 100
+
 		private string root = Application.StartupPath;
 
 		public DataGroupForm(bool loadLast)
 		{
-			InitializeComponent();			
+			InitializeComponent();
+
+			// Timer Init
+			dragTimer.Interval = delay;
+			dragTimer.Tick += Timer_Tick;
 
 			// Double Buffering
 			typeof(SplitContainer).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
@@ -228,7 +235,10 @@ namespace Project
 
 		private void PictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
-			((PictureBox)sender).DoDragDrop((sender), DragDropEffects.Move);
+			dragTimer.Stop();
+			dragTimer.Start();
+
+			((Form1)this.Owner).currentObject = sender;
 		}
 
 		private void PictureBox_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
@@ -446,6 +456,16 @@ namespace Project
 					LoadPalette(popup.FileName);
 				}
 			}
+		}
+
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			if (MouseButtons == MouseButtons.Left)
+			{
+				var temp = ((Form1)Owner).currentObject;
+				((PictureBox)temp).DoDragDrop((temp), DragDropEffects.Move);
+			}
+			dragTimer.Stop();
 		}
 	}
 }

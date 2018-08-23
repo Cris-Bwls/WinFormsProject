@@ -8,9 +8,15 @@ using System.Windows.Forms;
 
 namespace Project
 {
-	public class PictureBoxData
+	public class MapSaveData
+	{
+		public string m_imageLoc = null;
+		public Point m_Pos = new Point(0, 0);
+	}
+
+	public class MapData
 	{
 		public Image m_Image = null;
-		public Point m_Pos = new Point(0,0);
+		public MapSaveData m_Data = new MapSaveData();
 	}
 }

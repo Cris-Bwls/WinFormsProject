@@ -7,6 +7,7 @@
         <string>Images\Koala.jpg</string>
         <string>Images\Koala.jpg</string>
         <string>Images\Jellyfish.jpg</string>
+        <string>Images\Desert.jpg</string>
       </dataList>
     </GroupData>
     <GroupData>
@@ -15,15 +16,14 @@
         <string>Images\Hydrangeas.jpg</string>
         <string>Images\Hydrangeas.jpg</string>
         <string>Images\Jellyfish.jpg</string>
+        <string>Images\Desert.jpg</string>
       </dataList>
     </GroupData>
   </groupList>
   <unGroupedList>
     <string>Images\Hydrangeas.jpg</string>
     <string>Images\Desert.jpg</string>
-    <string>Images\Desert.jpg</string>
     <string>Images\Jellyfish.jpg</string>
     <string>Images\Koala.jpg</string>
-    <string>Images\Desert.jpg</string>
   </unGroupedList>
 </FilePalette>

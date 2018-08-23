@@ -65,7 +65,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Group.cs" />
-    <Compile Include="PictureBoxData.cs" />
+    <Compile Include="MapData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DataGroupForm.resx">
