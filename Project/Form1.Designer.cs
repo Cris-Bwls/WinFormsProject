@@ -31,8 +31,6 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.imagePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,9 +41,13 @@
 			this.OffsetChangedButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.YPosAdd = new System.Windows.Forms.Button();
+			this.YPosSub = new System.Windows.Forms.Button();
 			this.YPosTextBox = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.XPosSub = new System.Windows.Forms.Button();
+			this.XposAdd = new System.Windows.Forms.Button();
 			this.XPosTextBox = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.DisplaySizePanel = new System.Windows.Forms.Panel();
@@ -90,53 +92,40 @@
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.importToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.loadToolStripMenuItem,
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
-			this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
 			// 
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.newToolStripMenuItem.Text = "&New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-			// 
-			// importToolStripMenuItem
-			// 
-			this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.imagePaletteToolStripMenuItem});
-			this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-			this.importToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-			this.importToolStripMenuItem.Text = "&Import";
-			// 
-			// imagePaletteToolStripMenuItem
-			// 
-			this.imagePaletteToolStripMenuItem.Name = "imagePaletteToolStripMenuItem";
-			this.imagePaletteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-			this.imagePaletteToolStripMenuItem.Text = "Image Palette";
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.loadToolStripMenuItem.Text = "&Load";
+			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.closeToolStripMenuItem.Text = "&Close";
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// windowToolStripMenuItem
 			// 
@@ -145,7 +134,6 @@
 			this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
 			this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
 			this.windowToolStripMenuItem.Text = "&Window";
-			this.windowToolStripMenuItem.Click += new System.EventHandler(this.windowToolStripMenuItem_Click);
 			// 
 			// imagePalletteToolStripMenuItem
 			// 
@@ -204,6 +192,8 @@
 			// panel2
 			// 
 			this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.panel2.Controls.Add(this.YPosAdd);
+			this.panel2.Controls.Add(this.YPosSub);
 			this.panel2.Controls.Add(this.YPosTextBox);
 			this.panel2.Controls.Add(this.label3);
 			this.panel2.Location = new System.Drawing.Point(128, 14);
@@ -211,12 +201,32 @@
 			this.panel2.Size = new System.Drawing.Size(100, 40);
 			this.panel2.TabIndex = 1;
 			// 
+			// YPosAdd
+			// 
+			this.YPosAdd.Location = new System.Drawing.Point(77, 20);
+			this.YPosAdd.Name = "YPosAdd";
+			this.YPosAdd.Size = new System.Drawing.Size(23, 20);
+			this.YPosAdd.TabIndex = 6;
+			this.YPosAdd.Text = "+";
+			this.YPosAdd.UseVisualStyleBackColor = true;
+			this.YPosAdd.Click += new System.EventHandler(this.YPosAdd_Click);
+			// 
+			// YPosSub
+			// 
+			this.YPosSub.Location = new System.Drawing.Point(0, 20);
+			this.YPosSub.Name = "YPosSub";
+			this.YPosSub.Size = new System.Drawing.Size(23, 20);
+			this.YPosSub.TabIndex = 6;
+			this.YPosSub.Text = "-";
+			this.YPosSub.UseVisualStyleBackColor = true;
+			this.YPosSub.Click += new System.EventHandler(this.YPosSub_Click);
+			// 
 			// YPosTextBox
 			// 
-			this.YPosTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.YPosTextBox.Location = new System.Drawing.Point(0, 20);
+			this.YPosTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.YPosTextBox.Location = new System.Drawing.Point(25, 20);
 			this.YPosTextBox.Name = "YPosTextBox";
-			this.YPosTextBox.Size = new System.Drawing.Size(100, 20);
+			this.YPosTextBox.Size = new System.Drawing.Size(50, 20);
 			this.YPosTextBox.TabIndex = 2;
 			// 
 			// label3
@@ -232,6 +242,8 @@
 			// panel3
 			// 
 			this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.panel3.Controls.Add(this.XPosSub);
+			this.panel3.Controls.Add(this.XposAdd);
 			this.panel3.Controls.Add(this.XPosTextBox);
 			this.panel3.Controls.Add(this.label4);
 			this.panel3.Location = new System.Drawing.Point(10, 14);
@@ -239,12 +251,32 @@
 			this.panel3.Size = new System.Drawing.Size(100, 40);
 			this.panel3.TabIndex = 0;
 			// 
+			// XPosSub
+			// 
+			this.XPosSub.Location = new System.Drawing.Point(0, 20);
+			this.XPosSub.Name = "XPosSub";
+			this.XPosSub.Size = new System.Drawing.Size(23, 20);
+			this.XPosSub.TabIndex = 6;
+			this.XPosSub.Text = "-";
+			this.XPosSub.UseVisualStyleBackColor = true;
+			this.XPosSub.Click += new System.EventHandler(this.XPosSub_Click);
+			// 
+			// XposAdd
+			// 
+			this.XposAdd.Location = new System.Drawing.Point(77, 20);
+			this.XposAdd.Name = "XposAdd";
+			this.XposAdd.Size = new System.Drawing.Size(23, 20);
+			this.XposAdd.TabIndex = 2;
+			this.XposAdd.Text = "+";
+			this.XposAdd.UseVisualStyleBackColor = true;
+			this.XposAdd.Click += new System.EventHandler(this.XposAdd_Click);
+			// 
 			// XPosTextBox
 			// 
-			this.XPosTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.XPosTextBox.Location = new System.Drawing.Point(0, 20);
+			this.XPosTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.XPosTextBox.Location = new System.Drawing.Point(25, 20);
 			this.XPosTextBox.Name = "XPosTextBox";
-			this.XPosTextBox.Size = new System.Drawing.Size(100, 20);
+			this.XPosTextBox.Size = new System.Drawing.Size(50, 20);
 			this.XPosTextBox.TabIndex = 1;
 			// 
 			// label4
@@ -404,15 +436,19 @@
 			// 
 			// mapPanel
 			// 
+			this.mapPanel.AllowDrop = true;
 			this.mapPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.mapPanel.AutoScroll = true;
 			this.mapPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.mapPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.mapPanel.Location = new System.Drawing.Point(20, 15);
 			this.mapPanel.Name = "mapPanel";
 			this.mapPanel.Size = new System.Drawing.Size(900, 600);
 			this.mapPanel.TabIndex = 0;
+			this.mapPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mapPanel_MouseMove);
+			this.mapPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mapPanel_MouseMove);
 			// 
 			// Form1
 			// 
@@ -458,8 +494,6 @@
 		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem imagePalletteToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem imagePaletteToolStripMenuItem;
 		private System.Windows.Forms.Panel ToolbarPanel;
 		private System.Windows.Forms.Panel WorkPanel;
 		private System.Windows.Forms.Panel HeightPanel;
@@ -485,6 +519,10 @@
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.TextBox XPosTextBox;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button YPosAdd;
+		private System.Windows.Forms.Button YPosSub;
+		private System.Windows.Forms.Button XPosSub;
+		private System.Windows.Forms.Button XposAdd;
 	}
 }
 

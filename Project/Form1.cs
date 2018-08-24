@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Project
-{	
-    public partial class Form1 : Form
-    {
-        private List<List<MapData>> mapArray = new List<List<MapData>>();
+{
+	public partial class Form1 : Form
+	{
+		private List<List<MapData>> mapArray = new List<List<MapData>>();
 		private List<List<PictureBox>> pictureBoxArray = new List<List<PictureBox>>();
 		private DataGroupForm dataGroupForm = new DataGroupForm(true);
-		
+
 		private uint mapHeight = 0;
 		private uint mapWidth = 0;
 
@@ -32,19 +34,20 @@ namespace Project
 		public object currentObject;
 
 		public Form1()
-        {
-            InitializeComponent();
-			
+		{
+			InitializeComponent();
+
 			dataGroupForm.Show(this);
 
+			// Inheritance & Polymorphism
+			Inheritance inherit;
+			inherit = new Child1();
+			inherit.Print();
+			inherit = new Child2();
+			inherit.Print();
+
 			// Init TextBoxes
-			HeightTextBox.Text = mapHeight.ToString();
-			WidthTextBox.Text = mapWidth.ToString();
-
-			XPosTextBox.Text = mapOffsetX.ToString();
-			YPosTextBox.Text = mapOffsetY.ToString();
-
-			ImageSizeTextBox.Text = imageSize.ToString();
+			InitTextBoxes();
 
 			// Double Buffering
 			typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
@@ -53,23 +56,71 @@ namespace Project
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-		private void fileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 
 		}
 
-		private void windowToolStripMenuItem_Click(object sender, EventArgs e)
+		private void Reset()
 		{
+			mapHeight = 0;
+			mapWidth = 0;
+			imageSize = 50;
+			mapOffsetX = 0;
+			mapOffsetY = 0;
+			currentObject = null;
 
+			mapArray.Clear();
+			ResizePictureBoxArray();
+			InitTextBoxes();
+		}
+
+		private void InitTextBoxes()
+		{
+			HeightTextBox.Text = mapHeight.ToString();
+			WidthTextBox.Text = mapWidth.ToString();
+
+			XPosTextBox.Text = mapOffsetX.ToString();
+			YPosTextBox.Text = mapOffsetY.ToString();
+
+			ImageSizeTextBox.Text = imageSize.ToString();
 		}
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			Reset();
+		}
 
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (SaveFileDialog popup = new SaveFileDialog())
+			{
+				popup.Title = "Save Map";
+				popup.Filter = "Map File|*.map";
+
+				if (popup.ShowDialog() == DialogResult.OK)
+				{
+					SaveMap(popup.FileName);
+				}
+			}
+		}
+
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog popup = new OpenFileDialog())
+			{
+				popup.Title = "Load Map";
+				popup.Filter = "Map File|*.map";
+
+				if (popup.ShowDialog() == DialogResult.OK)
+				{
+					LoadMap(popup.FileName);
+				}
+			}
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Close();
 		}
 
 		private void imagePalletteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -153,7 +204,7 @@ namespace Project
 			{
 				// Get Error Text
 				string errorText;
-				if(widthInvalid)
+				if (widthInvalid)
 					errorText = "Width is Invalid";
 				else
 					errorText = "Height is Invalid";
@@ -170,7 +221,12 @@ namespace Project
 			bool YOffsetInvalid = false;
 
 			if (uint.TryParse(XPosTextBox.Text, out mapOffsetX))
-				YOffsetInvalid = !(uint.TryParse(YPosTextBox.Text, out mapOffsetY));
+				if (uint.TryParse(YPosTextBox.Text, out mapOffsetY))
+				{
+					ShiftMap();
+				}
+				else
+					YOffsetInvalid = true;
 			else
 				XOffsetInvalid = true;
 
@@ -200,7 +256,10 @@ namespace Project
 				if (temp < 0)
 					error = true;
 				else
+				{
 					imageSize = temp;
+					ResizePictureBoxes();
+				}
 			}
 			// ELSE try parse fails
 			else
@@ -274,7 +333,7 @@ namespace Project
 					int addCount = (int)temp - arrayHeight;
 					for (int i = 0; i < addCount; ++i)
 					{
-						Point pos = new Point(pictureBoxArray.IndexOf(list), list.Count()); 
+						Point pos = new Point(pictureBoxArray.IndexOf(list), list.Count());
 						list.Add(NewPictureBox(pos));
 					}
 				}
@@ -297,34 +356,269 @@ namespace Project
 			pictureBox.Location = pos;
 			pictureBox.Parent = mapPanel;
 			pictureBox.BackColor = Color.LightSlateGray;
-			pictureBox.MouseEnter += PictureBox_MouseOver;
+			pictureBox.MouseMove += PictureBox_Capture;
 			pictureBox.Tag = index;
 
 			// Return Initialised PictureBox
 			return pictureBox;
 		}
 
-		private void PictureBox_MouseOver(object sender, EventArgs e)
+		private void PictureBox_Capture(object sender, MouseEventArgs e)
 		{
-			if (MouseButtons == MouseButtons.Left)
+			mapPanel.Capture = true;
+		}
+
+		private void PictureBox_MouseOver(PictureBox picture)
+		{
+			// Check CurrentObject exists
+			if (currentObject == null)
+				return;
+
+			// Get Index with offset
+			Point index = (Point)(picture).Tag;
+			index.X += (int)mapOffsetX;
+			index.Y += (int)mapOffsetY;
+
+			if (index.X > mapWidth || index.Y > mapHeight)
+				return;
+
+			// Store Map Data
+			var temp = mapArray[index.X][index.Y];
+			temp.m_Image = ((PictureBox)currentObject).Image;
+			temp.m_Data.m_imageLoc = ((PictureBox)currentObject).ImageLocation;
+			temp.m_Data.m_Pos = index;
+
+			// Set PictureBox Image
+			picture.Image = temp.m_Image;
+		}
+
+		private void mapPanel_MouseMove(object sender, MouseEventArgs e)
+		{
+			// If left mouse button is NOT down
+			if (e.Button != MouseButtons.Left)
+				return;
+
+			for (int x = 0; x < pictureBoxArray.Count(); ++x)
 			{
-				// Check CurrentObject exists
-				if (currentObject == null)
+				var first = pictureBoxArray[x][0];
+
+				// IF above the current row
+				if (e.X < first.Left)
 					return;
 
-				// Get Index with offset
-				Point index = (Point)((PictureBox)sender).Tag;
-				index.X += (int)mapOffsetX;
-				index.Y += (int)mapOffsetY;
+				// Check if over picture box in X axis
+				if (e.X > first.Left && e.X < first.Right)
+				{
+					for (int y = 0; y < pictureBoxArray[x].Count(); ++y)
+					{
+						var current = pictureBoxArray[x][y];
 
-				// Store Map Data
-				var temp = mapArray[index.X][index.Y];
-				temp.m_Image = ((PictureBox)currentObject).Image;
-				temp.m_Data.m_imageLoc = (string)temp.m_Image.Tag;
-				temp.m_Data.m_Pos = index;
+						// If left of current column
+						if (e.Y < current.Top)
+							return;
 
-				// Set PictureBox Image
-				((PictureBox)sender).Image = temp.m_Image;
+						// Check if over picture box in Y axis
+						if (e.Y > current.Top && e.Y < current.Bottom)
+						{
+							PictureBox_MouseOver(current);
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		private void ShiftMap()
+		{
+			for (int x = 0; x < pictureBoxArray.Count(); ++x)
+			{
+				for (int y = 0; y < pictureBoxArray[x].Count(); ++y)
+				{
+					pictureBoxArray[x][y].Show();
+
+					int mapX = x + (int)mapOffsetX;
+					int mapY = y + (int)mapOffsetY;
+
+					// Set pictureBox image to map image with offset
+					if (mapX < mapWidth && mapY < mapHeight)
+						pictureBoxArray[x][y].Image = mapArray[mapX][mapY].m_Image;
+					else
+						pictureBoxArray[x][y].Hide();
+				}
+			}
+		}
+
+		private void ResizePictureBoxes()
+		{
+			foreach (List<PictureBox> list in pictureBoxArray)
+			{
+				foreach (PictureBox picture in list)
+				{
+					var pos = (Point)picture.Tag;
+
+					pos.X *= imageSize + imagePadding;
+					pos.X += imagePadding;
+
+					pos.Y *= imageSize + imagePadding;
+					pos.Y += imagePadding;
+
+					picture.Size = new Size(imageSize, imageSize);
+					picture.Location = pos;
+				}
+			}
+		}
+
+		private void XposAdd_Click(object sender, EventArgs e)
+		{
+			if (mapOffsetX < mapWidth - 1)
+				++mapOffsetX;
+
+
+			XPosTextBox.Text = mapOffsetX.ToString();
+			ShiftMap();
+		}
+
+		private void XPosSub_Click(object sender, EventArgs e)
+		{
+			if (mapOffsetX > 0)
+				--mapOffsetX;
+
+			XPosTextBox.Text = mapOffsetX.ToString();
+			ShiftMap();
+		}
+
+		private void YPosAdd_Click(object sender, EventArgs e)
+		{
+			if (mapOffsetY < mapHeight - 1)
+				++mapOffsetY;
+
+			YPosTextBox.Text = mapOffsetY.ToString();
+			ShiftMap();
+		}
+
+		private void YPosSub_Click(object sender, EventArgs e)
+		{
+			if (mapOffsetY > 0)
+				--mapOffsetY;
+
+			YPosTextBox.Text = mapOffsetY.ToString();
+			ShiftMap();
+		}
+
+		private void SaveMap(string path)
+		{
+			SaveData data = new SaveData();
+
+			// Store MapSaveData
+			foreach (List<MapData> list in mapArray)
+			{
+				var tempList = new List<MapSaveData>();
+
+				foreach (MapData mapData in list)
+				{
+					tempList.Add(mapData.m_Data);
+				}
+
+				data.mapArray.Add(tempList);
+			}
+
+			// Store Variables
+			data.imageSize = imageSize;
+
+			data.mapHeight = mapHeight;
+			data.mapWidth = mapWidth;
+
+			data.mapOffsetX = mapOffsetX;
+			data.mapOffsetY = mapOffsetY;
+
+
+			// Serialize
+			XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+			using (StreamWriter writer = new StreamWriter(path))
+			{
+				serializer.Serialize(writer, data);
+			}
+		}
+
+		private void LoadMap(string path)
+		{
+			bool error = false;
+			string errorText = null;
+			Reset();
+
+			// Load Blank Palette
+			if (!File.Exists(path))
+			{
+				return;
+			}
+
+			// Deserialize
+			XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+			using (StreamReader reader = new StreamReader(path))
+			{
+				SaveData data = (SaveData)serializer.Deserialize(reader);
+
+				foreach (List<MapSaveData> list in data.mapArray)
+				{
+					List<MapData> newList = new List<MapData>();
+					mapArray.Add(newList);
+
+					foreach (MapSaveData saveData in list)
+					{
+						MapData mapData = new MapData();
+
+						// Get image Location from saveData
+						var imageLoc = saveData.m_imageLoc;
+
+						// Add MapData to list
+						newList.Add(mapData);
+
+						// Add SaveData to MapData
+						mapData.m_Data = saveData;
+
+						// Check path is not null
+						if (imageLoc != null)
+						{
+							// Check image exists
+							if (!File.Exists(imageLoc))
+							{
+								error = true;
+								errorText += (imageLoc + "\n");
+								continue;
+							}
+
+							// Get Image from Save
+							Image image = new Bitmap(imageLoc);
+							image.Tag = imageLoc;
+
+							// Add Image to mapData
+							mapData.m_Image = image;
+						}
+					}
+				}
+
+				// Get other var
+				imageSize = data.imageSize;
+
+				mapHeight = data.mapHeight;
+				mapWidth = data.mapWidth;
+
+				mapOffsetX = data.mapOffsetX;
+				mapOffsetY = data.mapOffsetY;
+
+				// Init text boxes
+				InitTextBoxes();
+
+				// Resize PictureBoxArray
+				ResizePictureBoxArray();
+				ShiftMap();
+			}
+
+			// If Image failed to load
+			if (error)
+			{
+				ErrorForm errorForm = new ErrorForm("The following Images failed to load: \n" + errorText);
+				errorForm.ShowDialog();
 			}
 		}
 	}

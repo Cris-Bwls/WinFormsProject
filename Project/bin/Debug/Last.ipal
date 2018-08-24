@@ -5,8 +5,8 @@
       <name>Two</name>
       <dataList>
         <string>Images\Koala.jpg</string>
-        <string>Images\Koala.jpg</string>
         <string>Images\Jellyfish.jpg</string>
+        <string>Images\Koala.jpg</string>
         <string>Images\Desert.jpg</string>
       </dataList>
     </GroupData>
