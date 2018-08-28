@@ -13,6 +13,10 @@ using System.Xml.Serialization;
 
 namespace Project
 {
+	//--------------------------------------------------------
+	//	ErrorState
+	//		Enumerator for possible error states
+	//--------------------------------------------------------
 	enum ErrorState
 	{
 		Default,
@@ -21,6 +25,7 @@ namespace Project
 		DoesNotExist
 
 	}
+
 
 	public partial class DataGroupForm : Form
 	{
@@ -43,6 +48,10 @@ namespace Project
 
 		private string root = Application.StartupPath;
 
+		//--------------------------------------------------------
+		//	DataGroupForm
+		//		Constructor
+		//--------------------------------------------------------
 		public DataGroupForm(bool loadLast)
 		{
 			InitializeComponent();
@@ -62,23 +71,36 @@ namespace Project
 				LoadPalette("./Last.ipal");
 			}
 		}
-		
+
+		//--------------------------------------------------------
+		//	DataGroupForm_Load
+		//--------------------------------------------------------
 		private void DataGroupForm_Load(object sender, EventArgs e)
 		{
 
 		}
-		
+
+		//--------------------------------------------------------
+		//	NewGroupButton_Click
+		//		On click adds a new group
+		//--------------------------------------------------------
 		private void NewGroupButton_Click(object sender, EventArgs e)
 		{
 
 			groupList.Add(new Group(groupList, splitContainer1.Panel1));
 		}
 
+		//--------------------------------------------------------
+		//	ImportImages
+		//		Initialize picture boxes from images in
+		//		newImageList
+		//--------------------------------------------------------
 		private void ImportImages()
 		{
 			// Load Images into ungrouped picture boxes
 			foreach(Image image in newImageList)
 			{
+				// Init Picture Box
 				var temp = new PictureBox();
 				temp.Image = image;
 				temp.ImageLocation = (string)image.Tag;
@@ -88,6 +110,9 @@ namespace Project
 				temp.MouseDown += PictureBox_MouseDown;
 				temp.QueryContinueDrag += PictureBox_QueryContinueDrag;
 
+				// Add Tooltip
+				toolTip1.SetToolTip(temp, "Left Click Picture Box to select it for map painting");
+
 				// Add PictureBox to list
 				unGroupedList.Add(temp);
 			}
@@ -95,6 +120,10 @@ namespace Project
 			ResizeUngrouped();
 		}
 
+		//--------------------------------------------------------
+		//	ImportImageButton_Click
+		//		On click Load image/s using load dialog
+		//--------------------------------------------------------
 		private void ImportImageButton_Click(object sender, EventArgs e)
 		{
 			// Get List of Image paths
@@ -128,6 +157,11 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	SplitPanel2_DragEnter
+		//		On drag enter check if valid and change cursor
+		//		accordingly
+		//--------------------------------------------------------
 		private void SplitPanel2_DragEnter(object sender, DragEventArgs e)
 		{
 			isString = GetIsValidFileType(e);
@@ -137,8 +171,13 @@ namespace Project
 			}
 			else
 				e.Effect = DragDropEffects.None;
-		}	
+		}
 
+		//--------------------------------------------------------
+		//	SplitPanel2_DragDrop
+		//		Drop dragged images into ungrouped panel 
+		//		from file explorer
+		//--------------------------------------------------------
 		private void SplitPanel2_DragDrop(object sender, DragEventArgs e)
 		{
 			if (isString)
@@ -155,6 +194,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	GetIsValidFileType
+		//		Check drag contents are valid for drop
+		//--------------------------------------------------------
 		private bool GetIsValidFileType(DragEventArgs e)
 		{
 
@@ -187,6 +230,10 @@ namespace Project
 			return result;
 		}
 
+		//--------------------------------------------------------
+		//	LoadImage
+		//		Load Images from new image list
+		//--------------------------------------------------------
 		protected void LoadImage()
 		{
 			newImageList.Clear();
@@ -206,6 +253,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	ResizeUngrouped
+		//		Resizes the ungrouped picture boxes
+		//--------------------------------------------------------
 		public void ResizeUngrouped()
 		{
 			int nImageSizeWPadding = (Group.m_nImageSize + Group.m_nImagePadding);
@@ -223,24 +274,54 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	GetUnGroupedPanel
+		//	
+		//	@return
+		//		Panel - returns ungrouped panel
+		//--------------------------------------------------------
 		public Panel GetUnGroupedPanel()
 		{
 			return UngroupedPanel;
 		}
 
+		//--------------------------------------------------------
+		//	UngroupedPanel_Resize
+		//		On Panel resize resizes the Ungrouped pictures
+		//--------------------------------------------------------
 		private void UngroupedPanel_Resize(object sender, EventArgs e)
 		{
 			ResizeUngrouped();
 		}
 
+		//--------------------------------------------------------
+		//	PictureBox_MouseDown
+		//		On mouse down makes picture box current 
+		//		and starts the drag timer
+		//--------------------------------------------------------
 		private void PictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
 			dragTimer.Stop();
 			dragTimer.Start();
 
+			// Reset previous selected picture boxes border
+			PictureBox prev = (PictureBox)((Form1)this.Owner).currentObject;
+
+			if (prev != null)
+				prev.BorderStyle = BorderStyle.None;
+
+			// Set current selected picture boxes border
+			PictureBox current = (PictureBox)sender;
+			current.BorderStyle = BorderStyle.Fixed3D;
+
+			// Set current object to sender
 			((Form1)this.Owner).currentObject = sender;
 		}
 
+		//--------------------------------------------------------
+		//	PictureBox_QueryContinueDrag
+		//		Checks if drag should continue
+		//--------------------------------------------------------
 		private void PictureBox_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
 		{
 			Form f = ((PictureBox)sender).FindForm();
@@ -253,17 +334,32 @@ namespace Project
 					e.Action = DragAction.Cancel;
 		}
 
+		//--------------------------------------------------------
+		//	DataGroupForm_FormClosed
+		//		On form close Saves the palette
+		//--------------------------------------------------------
 		private void DataGroupForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			// Save current as LastUsed.ipal
 			SavePalette("./Last.ipal");
 		}
 
+		//--------------------------------------------------------
+		//	hideToolStripMenuItem_Click
+		//		Hides the window
+		//--------------------------------------------------------
 		private void hideToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.Hide();
 		}
 
+		//--------------------------------------------------------
+		//	SavePalette
+		//		Saves a palette to file using given path
+		//
+		//	@param
+		//	string path - path to Save file to
+		//--------------------------------------------------------
 		private void SavePalette(string path)
 		{
 			FilePalette data = new FilePalette();
@@ -297,6 +393,13 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	LoadPalette
+		//		Loads a palette from file using given path
+		//
+		//	@param
+		//	string path - path to load file from
+		//--------------------------------------------------------
 		private void LoadPalette(string path)
 		{
 			ClearData();
@@ -340,6 +443,9 @@ namespace Project
 					pictureBox.MouseDown += PictureBox_MouseDown;
 					pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
 
+					// Add Tooltip
+					toolTip1.SetToolTip(pictureBox, "Left Click Picture Box to select it for map painting");
+
 					// Add PictureBox to unGroupedList
 					unGroupedList.Add(pictureBox);					
 				}
@@ -381,6 +487,9 @@ namespace Project
 						pictureBox.MouseDown += PictureBox_MouseDown;
 						pictureBox.QueryContinueDrag += PictureBox_QueryContinueDrag;
 
+						// Add Tooltip
+						toolTip1.SetToolTip(pictureBox, "Left Click Picture Box to select it for map painting");
+
 						// Add PictureBox to unGroupedList
 						temp.GetDataList().Add(pictureBox);
 					}
@@ -399,12 +508,20 @@ namespace Project
 
 		}
 
+		//--------------------------------------------------------
+		//	ResetPalette
+		//		Resets Palette by calling ClearData
+		//--------------------------------------------------------
 		private void ResetPalette()
 		{
 			ClearData();
 			//LoadPalette(null);
 		}
 
+		//--------------------------------------------------------
+		//	ClearData
+		//		Clears Data
+		//--------------------------------------------------------
 		private void ClearData()
 		{
 			// Remove Groups from controls
@@ -425,11 +542,19 @@ namespace Project
 			imageList.Clear();
 		}
 
+		//--------------------------------------------------------
+		//	newToolStripMenuItem_Click
+		//		Resets palette
+		//--------------------------------------------------------
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ResetPalette();
 		}
 
+		//--------------------------------------------------------
+		//	saveToolStripMenuItem_Click
+		//		Saves a palette to file
+		//--------------------------------------------------------
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (SaveFileDialog popup = new SaveFileDialog())
@@ -444,6 +569,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	loadToolStripMenuItem_Click
+		//		Loads a palette from file
+		//--------------------------------------------------------
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (OpenFileDialog popup = new OpenFileDialog())
@@ -458,6 +587,11 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	Timer_Tick
+		//		On Tick if left mouse button down activates 
+		//		drag&drop
+		//--------------------------------------------------------
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			if (MouseButtons == MouseButtons.Left)

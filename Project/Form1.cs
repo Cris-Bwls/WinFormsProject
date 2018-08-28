@@ -33,6 +33,10 @@ namespace Project
 
 		public object currentObject;
 
+		//--------------------------------------------------------
+		//	Form1
+		//		Constructor
+		//--------------------------------------------------------
 		public Form1()
 		{
 			InitializeComponent();
@@ -55,11 +59,18 @@ namespace Project
 			WorkPanel, new object[] { true });
 		}
 
+		//--------------------------------------------------------
+		//	Form1_Load
+		//--------------------------------------------------------
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
 		}
 
+		//--------------------------------------------------------
+		//	Reset
+		//		Resets the map to default
+		//--------------------------------------------------------
 		private void Reset()
 		{
 			mapHeight = 0;
@@ -72,8 +83,14 @@ namespace Project
 			mapArray.Clear();
 			ResizePictureBoxArray();
 			InitTextBoxes();
+
+			
 		}
 
+		//--------------------------------------------------------
+		//	InitTextBoxes
+		//		Initializes the Input text boxes
+		//--------------------------------------------------------
 		private void InitTextBoxes()
 		{
 			HeightTextBox.Text = mapHeight.ToString();
@@ -85,11 +102,19 @@ namespace Project
 			ImageSizeTextBox.Text = imageSize.ToString();
 		}
 
+		//--------------------------------------------------------
+		//	newToolStripMenuItem_Click
+		//		Resets the current map to default
+		//--------------------------------------------------------
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Reset();
 		}
 
+		//--------------------------------------------------------
+		//	saveToolStripMenuItem_Click
+		//		Saves the map to file
+		//--------------------------------------------------------
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (SaveFileDialog popup = new SaveFileDialog())
@@ -104,6 +129,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	loadToolStripMenuItem_Click
+		//		Loads a Map from file
+		//--------------------------------------------------------
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			using (OpenFileDialog popup = new OpenFileDialog())
@@ -118,11 +147,20 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	closeToolStripMenuItem_Click
+		//		Closes the window
+		//--------------------------------------------------------
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
 
+		//--------------------------------------------------------
+		//	imagePalletteToolStripMenuItem_Click
+		//		On Click changes visibility of ImagePalette window
+		//		If it doesnt exist it creates it
+		//--------------------------------------------------------
 		private void imagePalletteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (dataGroupForm.IsDisposed)
@@ -131,6 +169,11 @@ namespace Project
 			dataGroupForm.Visible = !dataGroupForm.Visible;
 		}
 
+		//--------------------------------------------------------
+		//	ResizeMapButton_Click
+		//		On click changes map size based on user input
+		//		if valid
+		//--------------------------------------------------------
 		private void ResizeMapButton_Click(object sender, EventArgs e)
 		{
 			bool widthInvalid = false;
@@ -212,9 +255,14 @@ namespace Project
 				// Show Error Dialog
 				ErrorForm errorForm = new ErrorForm(errorText);
 				errorForm.ShowDialog();
+				errorForm.Location = MousePosition;
 			}
 		}
 
+		//--------------------------------------------------------
+		//	OffsetChangedButton_Click
+		//		On Click changes offset based on user input if valid
+		//--------------------------------------------------------
 		private void OffsetChangedButton_Click(object sender, EventArgs e)
 		{
 			bool XOffsetInvalid = false;
@@ -243,9 +291,15 @@ namespace Project
 				// Show Error Dialog
 				ErrorForm errorForm = new ErrorForm(errorText);
 				errorForm.ShowDialog();
+				errorForm.DesktopLocation = MousePosition;
 			}
 		}
 
+		//--------------------------------------------------------
+		//	SizeChangedButton_Click
+		//		On Click Changes the imagesize variable based upon
+		//		text input if valid
+		//--------------------------------------------------------
 		private void SizeChangedButton_Click(object sender, EventArgs e)
 		{
 			bool error = false;
@@ -277,6 +331,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	ResizePictureBoxArray
+		//		Resizes the array based on map width and height
+		//--------------------------------------------------------
 		private void ResizePictureBoxArray()
 		{
 			// Change Width
@@ -340,6 +398,13 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	NewPictureBox
+		//		Creates and initializes a new picture box
+		//
+		//	@param
+		//		Point pos - Index of Picturebox
+		//--------------------------------------------------------
 		private PictureBox NewPictureBox(Point pos)
 		{
 			var index = pos;
@@ -359,15 +424,31 @@ namespace Project
 			pictureBox.MouseMove += PictureBox_Capture;
 			pictureBox.Tag = index;
 
+			// Add Tooltip
+			toolTip1.SetToolTip(pictureBox, "TEST");
+
 			// Return Initialised PictureBox
 			return pictureBox;
 		}
 
+		//--------------------------------------------------------
+		//	PictureBox_Capture
+		//		Sets mapPanels mouse capture to true when over the
+		//		picture box
+		//--------------------------------------------------------
 		private void PictureBox_Capture(object sender, MouseEventArgs e)
 		{
 			mapPanel.Capture = true;
 		}
 
+		//--------------------------------------------------------
+		//	PictureBox_MouseOver
+		//		Sets the map image for that picture box to current
+		//		selected if able
+		//
+		//	@param
+		//		PictureBox picture - picture box that mouse is over
+		//--------------------------------------------------------
 		private void PictureBox_MouseOver(PictureBox picture)
 		{
 			// Check CurrentObject exists
@@ -392,6 +473,11 @@ namespace Project
 			picture.Image = temp.m_Image;
 		}
 
+		//--------------------------------------------------------
+		//	mapPanel_MouseMove
+		//		On Mouse Move Checks if the mouse has entered a
+		//		map picture box with mousebutton down
+		//--------------------------------------------------------
 		private void mapPanel_MouseMove(object sender, MouseEventArgs e)
 		{
 			// If left mouse button is NOT down
@@ -428,6 +514,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		// ShiftMap
+		//		Shifts the map images according to offsets
+		//--------------------------------------------------------
 		private void ShiftMap()
 		{
 			for (int x = 0; x < pictureBoxArray.Count(); ++x)
@@ -448,6 +538,10 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	ResizePictureBoxes
+		//		Resizes Picture boxes in map panel
+		//--------------------------------------------------------
 		private void ResizePictureBoxes()
 		{
 			foreach (List<PictureBox> list in pictureBoxArray)
@@ -468,6 +562,11 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	XPosAdd_Click
+		//		On Left Click increments from mapoffsetX if able
+		//		then calls ShiftMap
+		//--------------------------------------------------------
 		private void XposAdd_Click(object sender, EventArgs e)
 		{
 			if (mapOffsetX < mapWidth - 1)
@@ -478,6 +577,11 @@ namespace Project
 			ShiftMap();
 		}
 
+		//--------------------------------------------------------
+		//	XPosSub_Click
+		//		On Left Click decrements from mapoffsetX if able
+		//		then calls ShiftMap
+		//--------------------------------------------------------
 		private void XPosSub_Click(object sender, EventArgs e)
 		{
 			if (mapOffsetX > 0)
@@ -487,6 +591,11 @@ namespace Project
 			ShiftMap();
 		}
 
+		//--------------------------------------------------------
+		//	YPosAdd_Click
+		//		On Left Click increments from mapoffsetY if able
+		//		then calls ShiftMap
+		//--------------------------------------------------------
 		private void YPosAdd_Click(object sender, EventArgs e)
 		{
 			if (mapOffsetY < mapHeight - 1)
@@ -496,6 +605,11 @@ namespace Project
 			ShiftMap();
 		}
 
+		//--------------------------------------------------------
+		// YPosSub_Click
+		//		On Left Click decrements from mapoffsetY if able
+		//		then calls ShiftMap
+		//--------------------------------------------------------
 		private void YPosSub_Click(object sender, EventArgs e)
 		{
 			if (mapOffsetY > 0)
@@ -505,6 +619,13 @@ namespace Project
 			ShiftMap();
 		}
 
+		//--------------------------------------------------------
+		//	SaveMap
+		//		Saves a map to given path
+		//
+		//	@param
+		//	 string path - path to Save map to
+		//--------------------------------------------------------
 		private void SaveMap(string path)
 		{
 			SaveData data = new SaveData();
@@ -540,6 +661,13 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	LoadMap
+		//		Loads a map from given path
+		//
+		//	@param
+		//	 string path - path to load map from
+		//--------------------------------------------------------
 		private void LoadMap(string path)
 		{
 			bool error = false;
@@ -619,7 +747,17 @@ namespace Project
 			{
 				ErrorForm errorForm = new ErrorForm("The following Images failed to load: \n" + errorText);
 				errorForm.ShowDialog();
+				errorForm.Location = MousePosition;
 			}
+		}
+
+		//--------------------------------------------------------
+		//	mapPanel_MouseUp
+		//		Upon Mouse Up sets mapPanel capture to false
+		//--------------------------------------------------------
+		private void mapPanel_MouseUp(object sender, MouseEventArgs e)
+		{
+			mapPanel.Capture = false;
 		}
 	}
 }

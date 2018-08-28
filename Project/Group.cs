@@ -33,10 +33,23 @@ namespace Project
 
 		private TextBox m_TextBox = new TextBox();
 
-        public Group(List<Group> container, Panel parentPanel)
+		//--------------------------------------------------------
+		//	Group
+		//		Overloaded constructor
+		//
+		//	@param
+		//		List<Group> container
+		//			- container of the groups
+		//		Panel parentPanel
+		//			- parent panel of group
+		//--------------------------------------------------------
+		public Group(List<Group> container, Panel parentPanel)
         {
             // Set Container
             m_container = container;
+
+			// New Tooltip
+			ToolTip toolTip = new ToolTip();
 
             // Setup Parent Panel
             m_parentPanel = parentPanel;
@@ -57,19 +70,25 @@ namespace Project
             m_collapseGroup.SetBounds(0, 0, (m_headerPanel.Size.Width / 2), m_headerPanel.Height);
             m_collapseGroup.Click += new System.EventHandler(CollapseGroup_Click);
 
+			toolTip.SetToolTip(m_collapseGroup, "click to collapse group");
+
             // Rename Button
             m_renameGroup.Text = "...";
             m_renameGroup.SetBounds((m_headerPanel.Size.Width / 2) + 5, 0, 40, m_headerPanel.Height);
             m_renameGroup.Click += new System.EventHandler(RenameGroup_Click);
 
-            // Delete Button
-            m_deleteGroup.Text = "X";
+			toolTip.SetToolTip(m_renameGroup, "Click to enable renaming of group");
+
+			// Delete Button
+			m_deleteGroup.Text = "X";
             m_deleteGroup.SetBounds((m_headerPanel.Size.Width - 25), 0, 20, m_headerPanel.Height);
             m_deleteGroup.Click += new System.EventHandler(DeleteGroup_Click);
             m_deleteGroup.ForeColor = Color.Red;
 
-            // Setup Data Panel
-            m_dataPanel.Size = new System.Drawing.Size(parentPanel.Size.Width, m_nDataPanelHeight);
+			toolTip.SetToolTip(m_deleteGroup, "Click to delete group");
+
+			// Setup Data Panel
+			m_dataPanel.Size = new System.Drawing.Size(parentPanel.Size.Width, m_nDataPanelHeight);
             m_dataPanel.Dock = DockStyle.Top;
 
 			m_dataPanel.BackColor = Color.DimGray;
@@ -85,9 +104,14 @@ namespace Project
             m_TextBox.TextChanged += new System.EventHandler(TextBox_ChangedText);
             m_TextBox.Size = new System.Drawing.Size(100, 20);
             m_TextBox.TabIndex = 3;
-        }
 
-		// Moves Images back to Ungrouped
+			toolTip.SetToolTip(m_TextBox, "Input new Group name here");
+		}
+
+		//--------------------------------------------------------
+		//	UngroupImages
+		//		Moves Images back to Ungrouped
+		//--------------------------------------------------------
 		private void UngroupImages()
 		{
 			DataGroupForm form = (DataGroupForm)m_parentPanel.FindForm();
@@ -99,17 +123,31 @@ namespace Project
 			form.ResizeUngrouped();
 		}
 
+		//--------------------------------------------------------
+		//	GetDataList
+		//		
+		//	@ return
+		//		List<PictureBox> returns the list of picture boxes
+		//--------------------------------------------------------
 		public List<PictureBox> GetDataList()
 		{
 			return m_dataList;
 		}
 
+		//--------------------------------------------------------
+		//	CollapseGroup_Click
+		//		On click switches data panel visibility
+		//--------------------------------------------------------
 		private void CollapseGroup_Click(object sender, EventArgs e)
         {
             m_dataPanel.Visible = !m_dataPanel.Visible;
         }
 
-        private void RenameGroup_Click(object sender, EventArgs e)
+		//--------------------------------------------------------
+		//	RenameGroup_Click
+		//		On click brings up rename text box
+		//--------------------------------------------------------
+		private void RenameGroup_Click(object sender, EventArgs e)
         {
             m_TextBox.Visible = !m_TextBox.Visible;
 
@@ -122,7 +160,11 @@ namespace Project
 
         }
 
-        private void DeleteGroup_Click(object sender, EventArgs e)
+		//--------------------------------------------------------
+		//	DeleteGroup_Click
+		//		On click deletes group
+		//--------------------------------------------------------
+		private void DeleteGroup_Click(object sender, EventArgs e)
         {
             m_parentPanel.Controls.Remove(m_dataPanel);
             m_parentPanel.Controls.Remove(m_headerPanel);
@@ -130,12 +172,21 @@ namespace Project
             m_container.Remove(this);
         }
 
-        private void TextBox_ChangedText(object sender, EventArgs e)
+		//--------------------------------------------------------
+		//	TextBox_ChangedText
+		//		On text change, changes name of group
+		//--------------------------------------------------------
+		private void TextBox_ChangedText(object sender, EventArgs e)
         {
             m_Name = m_TextBox.Text;
             m_collapseGroup.Text = m_Name;
         }
 
+		//--------------------------------------------------------
+		//	ResizeData
+		//		Resizes the picture box locations 
+		//		according to panel size
+		//--------------------------------------------------------
 		public void ResizeData()
 		{
 			int nImageSizeWPadding = (Group.m_nImageSize + Group.m_nImagePadding);
@@ -153,11 +204,20 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	DataPanel_Resize
+		//		On panel resize changes the positions of 
+		//		picture boxes in the panel
+		//--------------------------------------------------------
 		private void DataPanel_Resize(object sender, EventArgs e)
 		{
 			ResizeData();
 		}
 
+		//--------------------------------------------------------
+		//	DataPanel_DragEnter
+		//		On enter checks drag contents and changes cursor
+		//--------------------------------------------------------
 		private void DataPanel_DragEnter(object sender, DragEventArgs e)
 		{
 			// Check that the data is a picturebox
@@ -167,6 +227,11 @@ namespace Project
 				e.Effect = DragDropEffects.None;
 		}
 
+		//--------------------------------------------------------
+		//	DataPanel_DragDrop
+		//		On Drop moves picture box from origin to destination
+		//		if able
+		//--------------------------------------------------------
 		private void DataPanel_DragDrop(object sender, DragEventArgs e)
 		{
 
@@ -218,23 +283,50 @@ namespace Project
 			}
 		}
 
+		//--------------------------------------------------------
+		//	GetData
+		//		Gets the name and data list
+		//
+		//	@param
+		//		out string name
+		//			- returns the name of the group
+		//		out List<PictureBox> dataList 
+		//			- returns the list of pictureBoxes
+		//--------------------------------------------------------
 		public void GetData(out string name, out List<PictureBox> dataList)
 		{
 			name = m_Name;
 			dataList = m_dataList;
 		}
 
+		//--------------------------------------------------------
+		//	SetName
+		//		Sets name of group according to string
+		//
+		//	@param
+		//		string name - new name of group
+		//--------------------------------------------------------
 		public void SetName(string name)
 		{
 			m_TextBox.Text = name;
 			m_Name = name;
 		}
 
+		//--------------------------------------------------------
+		//	GetDataPanel
+		//		
+		//	@return
+		//		panel - returns panel containing all the data
+		//--------------------------------------------------------
 		public Panel GetDataPanel()
 		{
 			return m_dataPanel;
 		}
 
+		//--------------------------------------------------------
+		//	RemoveControls
+		//		Removes the groups panels from its parents control
+		//--------------------------------------------------------
 		public void RemoveControls()
 		{
 			m_parentPanel.Controls.Remove(m_headerPanel);

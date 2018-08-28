@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.UngroupedPanel = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -83,6 +85,7 @@
 			this.UngroupedPanel.Name = "UngroupedPanel";
 			this.UngroupedPanel.Size = new System.Drawing.Size(314, 155);
 			this.UngroupedPanel.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.UngroupedPanel, "Drag Images here from file explorer");
 			this.UngroupedPanel.Resize += new System.EventHandler(this.UngroupedPanel_Resize);
 			// 
 			// label1
@@ -105,6 +108,7 @@
 			this.NewGroupButton.Size = new System.Drawing.Size(100, 25);
 			this.NewGroupButton.TabIndex = 5;
 			this.NewGroupButton.Text = "New Group";
+			this.toolTip1.SetToolTip(this.NewGroupButton, "Creates a new group");
 			this.NewGroupButton.UseVisualStyleBackColor = true;
 			this.NewGroupButton.Click += new System.EventHandler(this.NewGroupButton_Click);
 			// 
@@ -116,6 +120,7 @@
 			this.ImportImageButton.Size = new System.Drawing.Size(100, 25);
 			this.ImportImageButton.TabIndex = 6;
 			this.ImportImageButton.Text = "Import Image";
+			this.toolTip1.SetToolTip(this.ImportImageButton, "Imports new images to ungrouped");
 			this.ImportImageButton.UseVisualStyleBackColor = true;
 			this.ImportImageButton.Click += new System.EventHandler(this.ImportImageButton_Click);
 			// 
@@ -170,6 +175,7 @@
 			this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
 			this.hideToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.hideToolStripMenuItem.Text = "Hide";
+			this.hideToolStripMenuItem.ToolTipText = "Click to Hide Window";
 			this.hideToolStripMenuItem.Click += new System.EventHandler(this.hideToolStripMenuItem_Click);
 			// 
 			// DataGroupForm
@@ -184,7 +190,7 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MinimumSize = new System.Drawing.Size(330, 600);
 			this.Name = "DataGroupForm";
-			this.Text = "DataGroupForm";
+			this.Text = "Image Palette";
 			this.TopMost = true;
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DataGroupForm_FormClosed);
 			this.Load += new System.EventHandler(this.DataGroupForm_Load);
@@ -213,5 +219,6 @@
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }

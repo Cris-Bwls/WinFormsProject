@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project
 {
+	//--------------------------------------------------------
+	//	SaveData
+	//		Container of data for map save files
+	//--------------------------------------------------------
 	public class SaveData
 	{
 		public List<List<MapSaveData>> mapArray = new List<List<MapSaveData>>();

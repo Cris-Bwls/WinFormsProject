@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +66,7 @@
 			this.WidthLabel = new System.Windows.Forms.Label();
 			this.WorkPanel = new System.Windows.Forms.Panel();
 			this.mapPanel = new System.Windows.Forms.Panel();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.menuStrip1.SuspendLayout();
 			this.ToolbarPanel.SuspendLayout();
 			this.MapOffsetPanel.SuspendLayout();
@@ -102,28 +104,28 @@
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.newToolStripMenuItem.Text = "&New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// loadToolStripMenuItem
 			// 
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.loadToolStripMenuItem.Text = "&Load";
 			this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// closeToolStripMenuItem
 			// 
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-			this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.closeToolStripMenuItem.Text = "&Close";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
@@ -138,8 +140,9 @@
 			// imagePalletteToolStripMenuItem
 			// 
 			this.imagePalletteToolStripMenuItem.Name = "imagePalletteToolStripMenuItem";
-			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.imagePalletteToolStripMenuItem.Text = "Image Palette";
+			this.imagePalletteToolStripMenuItem.ToolTipText = "Click to Show or Hide Palette Window";
 			this.imagePalletteToolStripMenuItem.Click += new System.EventHandler(this.imagePalletteToolStripMenuItem_Click);
 			// 
 			// ToolbarPanel
@@ -208,6 +211,7 @@
 			this.YPosAdd.Size = new System.Drawing.Size(23, 20);
 			this.YPosAdd.TabIndex = 6;
 			this.YPosAdd.Text = "+";
+			this.toolTip1.SetToolTip(this.YPosAdd, "Increment Y positon");
 			this.YPosAdd.UseVisualStyleBackColor = true;
 			this.YPosAdd.Click += new System.EventHandler(this.YPosAdd_Click);
 			// 
@@ -218,6 +222,7 @@
 			this.YPosSub.Size = new System.Drawing.Size(23, 20);
 			this.YPosSub.TabIndex = 6;
 			this.YPosSub.Text = "-";
+			this.toolTip1.SetToolTip(this.YPosSub, "Decrement Y positon");
 			this.YPosSub.UseVisualStyleBackColor = true;
 			this.YPosSub.Click += new System.EventHandler(this.YPosSub_Click);
 			// 
@@ -228,6 +233,7 @@
 			this.YPosTextBox.Name = "YPosTextBox";
 			this.YPosTextBox.Size = new System.Drawing.Size(50, 20);
 			this.YPosTextBox.TabIndex = 2;
+			this.toolTip1.SetToolTip(this.YPosTextBox, "Change the Y Position ");
 			// 
 			// label3
 			// 
@@ -258,6 +264,7 @@
 			this.XPosSub.Size = new System.Drawing.Size(23, 20);
 			this.XPosSub.TabIndex = 6;
 			this.XPosSub.Text = "-";
+			this.toolTip1.SetToolTip(this.XPosSub, "Decrement X positon");
 			this.XPosSub.UseVisualStyleBackColor = true;
 			this.XPosSub.Click += new System.EventHandler(this.XPosSub_Click);
 			// 
@@ -268,6 +275,7 @@
 			this.XposAdd.Size = new System.Drawing.Size(23, 20);
 			this.XposAdd.TabIndex = 2;
 			this.XposAdd.Text = "+";
+			this.toolTip1.SetToolTip(this.XposAdd, "Increment X positon");
 			this.XposAdd.UseVisualStyleBackColor = true;
 			this.XposAdd.Click += new System.EventHandler(this.XposAdd_Click);
 			// 
@@ -278,6 +286,7 @@
 			this.XPosTextBox.Name = "XPosTextBox";
 			this.XPosTextBox.Size = new System.Drawing.Size(50, 20);
 			this.XPosTextBox.TabIndex = 1;
+			this.toolTip1.SetToolTip(this.XPosTextBox, "Change the X Position \r\nrelative to the top left tile");
 			// 
 			// label4
 			// 
@@ -301,6 +310,7 @@
 			this.DisplaySizePanel.Name = "DisplaySizePanel";
 			this.DisplaySizePanel.Size = new System.Drawing.Size(240, 51);
 			this.DisplaySizePanel.TabIndex = 3;
+			this.toolTip1.SetToolTip(this.DisplaySizePanel, "Change the viewing size of \r\nthe images on the map");
 			// 
 			// ImageSizeTextBox
 			// 
@@ -343,6 +353,7 @@
 			this.SizePanel.Name = "SizePanel";
 			this.SizePanel.Size = new System.Drawing.Size(240, 86);
 			this.SizePanel.TabIndex = 2;
+			this.toolTip1.SetToolTip(this.SizePanel, "Change size of map");
 			// 
 			// ResizeMapButton
 			// 
@@ -447,8 +458,11 @@
 			this.mapPanel.Name = "mapPanel";
 			this.mapPanel.Size = new System.Drawing.Size(900, 600);
 			this.mapPanel.TabIndex = 0;
+			this.toolTip1.SetToolTip(this.mapPanel, "Select an image on the palette,\r\nLeft Click on or drag over map tiles\r\nto place i" +
+        "mage on the map");
 			this.mapPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mapPanel_MouseMove);
 			this.mapPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mapPanel_MouseMove);
+			this.mapPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mapPanel_MouseUp);
 			// 
 			// Form1
 			// 
@@ -523,6 +537,7 @@
 		private System.Windows.Forms.Button YPosSub;
 		private System.Windows.Forms.Button XPosSub;
 		private System.Windows.Forms.Button XposAdd;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }
 

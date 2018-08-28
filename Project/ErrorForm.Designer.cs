@@ -35,7 +35,7 @@
 			// CloseButton
 			// 
 			this.CloseButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.CloseButton.Location = new System.Drawing.Point(99, 56);
+			this.CloseButton.Location = new System.Drawing.Point(107, 72);
 			this.CloseButton.Name = "CloseButton";
 			this.CloseButton.Size = new System.Drawing.Size(85, 25);
 			this.CloseButton.TabIndex = 0;
@@ -50,7 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ErrorLabel.Location = new System.Drawing.Point(12, 9);
 			this.ErrorLabel.Name = "ErrorLabel";
-			this.ErrorLabel.Size = new System.Drawing.Size(260, 42);
+			this.ErrorLabel.Size = new System.Drawing.Size(276, 58);
 			this.ErrorLabel.TabIndex = 1;
 			this.ErrorLabel.Text = "An error has occurred!";
 			this.ErrorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -59,10 +59,12 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 82);
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.ClientSize = new System.Drawing.Size(300, 120);
 			this.ControlBox = false;
 			this.Controls.Add(this.ErrorLabel);
 			this.Controls.Add(this.CloseButton);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MinimumSize = new System.Drawing.Size(300, 120);
 			this.Name = "ErrorForm";
 			this.Text = "Error!";
