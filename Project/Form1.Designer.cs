@@ -140,7 +140,7 @@
 			// imagePalletteToolStripMenuItem
 			// 
 			this.imagePalletteToolStripMenuItem.Name = "imagePalletteToolStripMenuItem";
-			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.imagePalletteToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.imagePalletteToolStripMenuItem.Text = "Image Palette";
 			this.imagePalletteToolStripMenuItem.ToolTipText = "Click to Show or Hide Palette Window";
 			this.imagePalletteToolStripMenuItem.Click += new System.EventHandler(this.imagePalletteToolStripMenuItem_Click);
@@ -474,7 +474,7 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Text = "Map Editor";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
